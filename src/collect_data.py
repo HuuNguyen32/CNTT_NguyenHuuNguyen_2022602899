@@ -24,6 +24,10 @@ def collect(video_path, label, output_dir):
     count = 0
     frame_count = 0
     FRAME_SKIP = 2
+    
+    # KÍCH THƯỚC BƯỚC TRƯỢT (STEP_SIZE): Số Frame xử lý sẽ bị trừ đi sau mỗi lần cắt Data.
+    # 8 Frame xử lý x 2 (Skip) = 16 Frame Gốc -> Tương đương Máy sẽ cắt Data định kỳ mỗi 0.54 giây! (Chuẩn tỷ lệ rọc thịt)
+    STEP_SIZE = 8
 
     while True:
 
@@ -51,7 +55,8 @@ def collect(video_path, label, output_dir):
 
             np.save(os.path.join(output_dir, filename), data)
 
-            buffer = buffer[5:]
+            # Trượt cửa sổ: Xóa bỏ STEP_SIZE khung hình cũ nhất để giãn cách Thời gian (Tránh sinh rác Data bị đè lên nhau quá nhiều)
+            buffer = buffer[STEP_SIZE:]
 
             count += 1
 

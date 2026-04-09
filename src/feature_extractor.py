@@ -34,10 +34,15 @@ class PoseFeatureExtractor:
 
         features = []
 
+        height, width, _ = roi_rgb.shape
+
         for lm in landmarks:
-            # MediaPipe trả về tọa độ chuẩn hóa [0.0, 1.0] theo kích thước của roi_rgb
-            features.append(lm.x)
-            features.append(lm.y)
+            # SỬA LỖI BIẾN DẠNG TỶ LỆ (ASPECT RATIO DISTORTION):
+            # MediaPipe trả về tọa độ [0->1] ảo dựa theo chiều dài/rộng của bức ảnh.
+            # Vì ảnh lúc Train là Màn hình ngang (16:9), còn ảnh lúc Test (ROI) là Dọc (1:3),
+            # nên nếu không nhân với width/height để đưa về Pixel thật, Cánh tay sẽ bị cong vẹo!
+            features.append(lm.x * width)
+            features.append(lm.y * height)
 
         features = np.array(features)
 

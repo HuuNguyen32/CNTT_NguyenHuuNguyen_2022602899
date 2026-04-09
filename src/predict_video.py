@@ -23,10 +23,11 @@ extractor = PoseFeatureExtractor()
 
 buffers = {}  # Lưu trữ chuỗi frames cho từng ID sinh viên
 
-# --- CƠ CHẾ LÀM MƯỢT NHÃN (SMOOTHING / MAJORITY VOTE) ---
-# Dùng bộ nhớ đệm 10 dự đoán gần nhất để chọn ra nhãn xuất hiện nhiều nhất
-last_predictions = {}
-prediction_history = {} 
+# --- CƠ CHẾ CHUYỂN TRẠNG THÁI REAL-TIME (DEBOUNCER) ---
+# Tự động thay đổi nhãn ngay lập tức nếu phát hiện hành động mới 2 lần liên tiếp (Không phân biệt nhãn nào)
+stable_labels = {}
+streak_labels = {}
+streak_counts = {}
 
 cap = cv2.VideoCapture(VIDEO_INPUT)
 
@@ -62,8 +63,10 @@ while True:
         if roi.size == 0:
             continue
 
-        if track_id not in prediction_history:
-            prediction_history[track_id] = collections.deque(maxlen=15) # Buffer 15 dự đoán cũ
+        if track_id not in stable_labels:
+            stable_labels[track_id] = "Vui long doi..."
+            streak_labels[track_id] = ""
+            streak_counts[track_id] = 0
 
         # --- PIPELINE: 5. MEDIAPIPE POSE -> 66 FEATURES ---
         features = extractor.extract_pose(roi)
@@ -82,7 +85,7 @@ while True:
         # Thêm 66 điểm đặc trưng vào dãy sequence
         buffers[track_id].append(features)
 
-        label = last_predictions.get(track_id, "Vui long doi...")
+        label = stable_labels.get(track_id, "Vui long doi...")
 
         # --- PIPELINE: 6. SEQUENCE 30 FRAMES ---
         if len(buffers[track_id]) == SEQUENCE_LENGTH:
@@ -92,17 +95,38 @@ while True:
             # --- PIPELINE: 7. LSTM PREDICT BEHAVIOR ---
             prediction = model.predict(input_data, verbose=0)[0]
             class_id = np.argmax(prediction)
-
-            # --- CƠ CHẾ LÀM MƯỢT ---
             current_label = LABEL_MAP[class_id]
-            prediction_history[track_id].append(current_label)
-            
-            # Lấy nhãn xuất hiện nhiều nhất trong 15 frames gần nhất (Majority Voting)
-            most_common_label = collections.Counter(prediction_history[track_id]).most_common(1)[0][0]
 
-            # --- PIPELINE: 8. DISPLAY CẬP NHẬT NHÃN ---
-            label = most_common_label
-            last_predictions[track_id] = label  # Lưu lại để hiển thị mượt
+            # --- LƯỚI KHỬ NHIỄU GIƠ TAY (Heuristic Filter) ---
+            if current_label == "HAND RAISING" or current_label == "HAND_RAISING":
+                current_features = buffers[track_id][-1] # Tọa độ chuẩn hóa khung hình hiện tại
+                # Theo Code 46 điểm: 15 là cổ tay trái (Tọa độ y: index 31), 16: cổ tay phải (Tọa độ y: index 33)
+                left_wrist_y = current_features[31]
+                right_wrist_y = current_features[33]
+                
+                # Trục Y của MediaPipe: Số ÂM càng lớn là càng vươn lên cao.
+                # Ngưỡng -0.4 là mức nới lỏng: Tay nhấc qua cằm (Không cần phải thẳng đuột qua đầu).
+                if left_wrist_y > -0.4 and right_wrist_y > -0.4:
+                    # Phủ quyết hành vi Giơ tay (Đưa xác suất Giơ tay về 0)
+                    prediction[0] = 0.0  
+                    # Bắt AI lấy hành vi đứng hạng 2 (Reading / Writing / Sleeping) để làm kết quả
+                    class_id = np.argmax(prediction)
+                    current_label = LABEL_MAP[class_id]
+
+            # --- CƠ CHẾ CẬP NHẬT REALTIME (STATE MACHINE) ---
+            # Nếu nhãn mới giống với streak hiện tại, tăng điểm xác nhận
+            if current_label == streak_labels.get(track_id):
+                streak_counts[track_id] += 1
+            else:
+                streak_labels[track_id] = current_label
+                streak_counts[track_id] = 1
+
+            # CHUYỂN TRẠNG THÁI NGAY TỨC KHẮC nếu hành động được xác nhận 2 lần liên tiếp
+            # Vừa đáp ứng nhanh (Real-time), vừa chống chớp giật nhãn (Flicker)
+            if streak_counts[track_id] >= 2:
+                stable_labels[track_id] = current_label
+
+            label = stable_labels[track_id]
 
             # Trượt (Sliding Window): Bỏ 5 frames cũ nhất để dự đoán mượt hơn
             buffers[track_id] = buffers[track_id][5:]
