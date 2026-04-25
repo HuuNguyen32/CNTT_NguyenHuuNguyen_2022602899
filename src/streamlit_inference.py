@@ -14,10 +14,10 @@ from Config.config import LSTM_MODEL, SEQUENCE_LENGTH, LABEL_MAP
 try:
     model = load_model(LSTM_MODEL)
 except:
-    model = None
+    import traceback
 
 
-def process_video_for_streamlit(video_path, output_path, st_placeholder):
+def process_video_for_streamlit(video_path, output_path, st_placeholder, progress_bar=None, status_text=None, frame_skip: int = 1):
     from src.tracking import reset_tracker
     
     if model is None:
@@ -34,39 +34,53 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
     extractor = PoseFeatureExtractor()
     buffers = {}
     
+    # NEW: Bảng đếm thống kê hành vi cho file Export
+    behavior_counts = collections.defaultdict(lambda: collections.defaultdict(int))
+    
     cap = cv2.VideoCapture(video_path)
 
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
 
-    # Ghi đè kích thước để khớp với kích thước Frame thu nhỏ (800x600) hỗ trợ chống giật
-    width = 800
-    height = 600
+    # Xóa bỏ hoàn toàn việc ép cứng width = 800 và height = 600
+    # Để thuật toán Tự động tính tỷ lệ 16:9 ở bên dưới làm việc.
     
-    # Khởi tạo bộ lưu Video chuẩn mp4v cho OpenCV
-    # Codec 'avc1' (h264) tốt hơn cho web browser, hoặc giữ nguyên 'mp4v'. Có thể dùng mp4v cho Windows Media Player
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-
-    FRAME_SKIP = 2
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    
+    # Máy cấu hình Gaming (RTX 3050) -> Bật chế độ Native Resolution (Tỷ lệ gốc)
+    # Không cần Resize, giữ nguyên 100% độ phân giải gốc để AI đạt độ chính xác cao nhất
+    
+    # Khởi tạo bộ lưu Video chuẩn H264 (avc1) hỗ trợ HTML5 Web Player.
+    # Vì vứt bỏ bớt Frame để giảm giật (frame_skip), nên tốc độ khung hình đầu ra phải chia đôi theo tỷ lệ tương ứng.
+    # Nhờ vậy Video xuất ra sẽ giữ nguyên vẹn thời lượng gốc (6s -> 6s) thay vì bị nén lại như Tua Nhanh (Fast Forward).
+    output_fps = fps / frame_skip 
+    fourcc = cv2.VideoWriter_fourcc(*"avc1")
+    writer = cv2.VideoWriter(output_path, fourcc, output_fps, (width, height))
     frame_count = 0
 
     while True:
         ret, frame = cap.read()
         if not ret:
             break
-
-        frame = cv2.resize(frame, (800, 600))
+        
         frame_count += 1
+        
+        # Cập nhật thanh Loading Mượt mà
+        if progress_bar and status_text:
+            percent = min(frame_count / total_frames, 1.0)
+            progress_bar.progress(percent)
+            status_text.write(f"🔄 **Đang phân tích:** {frame_count}/{total_frames} khung hình ({(percent*100):.1f}%)")
 
         # Nếu muốn Streamlit mượt hơn, có thể thu nhỏ frame chiếu lên web
         # frame_display = cv2.resize(frame, (800, 600))
 
-        # AI Processing
-        # Khắc phục lỗi chớp nháy (Flickering Boxes): Phải dùng "continue" để bỏ qua hoàn toàn việc Render lên màn hình
-        if frame_count % FRAME_SKIP != 0:
+        # AI Processing Khắc phục lỗi chớp nháy (Flickering Boxes): Phải dùng "continue" để bỏ qua hoàn toàn việc
+        # Render lên màn hình theo tùy chọn Web
+        if frame_count % frame_skip != 0:
             continue
+            
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         tracks = track(frame)
 
@@ -83,7 +97,7 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
                 continue
 
             if track_id not in st.session_state.stable_labels:
-                st.session_state.stable_labels[track_id] = "Vui long doi..."
+                st.session_state.stable_labels[track_id] = "Analyzing..."
                 st.session_state.streak_labels[track_id] = ""
                 st.session_state.streak_counts[track_id] = 0
 
@@ -99,14 +113,20 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
                 buffers[track_id] = []
 
             buffers[track_id].append(features)
-            label = st.session_state.stable_labels.get(track_id, "Vui long doi...")
+            label = st.session_state.stable_labels.get(track_id, "Analyzing...")
 
             if len(buffers[track_id]) == SEQUENCE_LENGTH:
                 input_data = np.expand_dims(buffers[track_id], axis=0)
 
                 prediction = model.predict(input_data, verbose=0)[0]
                 class_id = np.argmax(prediction)
-                current_label = LABEL_MAP[class_id]
+                confidence = prediction[class_id]
+                
+                # --- BỘ LỌC NGƯỠNG TỰ TIN (CONFIDENCE THRESHOLD) ---
+                if confidence < 0.70:
+                    current_label = "UNKNOWN"
+                else:
+                    current_label = LABEL_MAP[class_id]
 
                 # --- LƯỚI KHỬ NHIỄU GIƠ TAY (Heuristic Filter) ---
                 if current_label == "HAND RAISING" or current_label == "HAND_RAISING":
@@ -115,9 +135,14 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
                     right_wrist_y = current_features[33]
                     
                     if left_wrist_y > -0.8 and right_wrist_y > -0.8:
-                        prediction[0] = 0.0  
+                        prediction[class_id] = 0.0  
                         class_id = np.argmax(prediction)
-                        current_label = LABEL_MAP[class_id]
+                        confidence = prediction[class_id]
+                        
+                        if confidence < 0.70:
+                            current_label = "UNKNOWN"
+                        else:
+                            current_label = LABEL_MAP[class_id]
                 
                 # --- CƠ CHẾ CẬP NHẬT REALTIME (STATE MACHINE) ---
                 if current_label == st.session_state.streak_labels.get(track_id):
@@ -127,9 +152,14 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
                     st.session_state.streak_counts[track_id] = 1
 
                 if st.session_state.streak_counts[track_id] >= 2:
+                    old_label = st.session_state.stable_labels.get(track_id, "Analyzing...")
                     st.session_state.stable_labels[track_id] = current_label
+                    
+                    # LOGIC KIỂM ĐẾM (STATE TRANSITION TICKER)
+                    if current_label != old_label and current_label != "Analyzing...":
+                        behavior_counts[track_id][current_label] += 1
 
-                label = st.session_state.stable_labels[track_id]
+                label = st.session_state.stable_labels.get(track_id, "Analyzing...")
                 buffers[track_id] = buffers[track_id][5:]
 
             draw_box(frame, (l, t, w, h), track_id=track_id, label=label)
@@ -147,3 +177,5 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder):
         extractor.close()
     except:
         pass
+        
+    return behavior_counts

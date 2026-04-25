@@ -1,3 +1,5 @@
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import torch
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
