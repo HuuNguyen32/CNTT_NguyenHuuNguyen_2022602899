@@ -123,7 +123,7 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                 confidence = prediction[class_id]
                 
                 # --- BỘ LỌC NGƯỠNG TỰ TIN (CONFIDENCE THRESHOLD) ---
-                if confidence < 0.70:
+                if confidence < 0.50:
                     current_label = "UNKNOWN"
                 else:
                     current_label = LABEL_MAP[class_id]
@@ -139,7 +139,7 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                         class_id = np.argmax(prediction)
                         confidence = prediction[class_id]
                         
-                        if confidence < 0.70:
+                        if confidence < 0.50:
                             current_label = "UNKNOWN"
                         else:
                             current_label = LABEL_MAP[class_id]

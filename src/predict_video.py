@@ -46,7 +46,7 @@ while True:
     if frame_count % FRAME_SKIP != 0:
         continue # Bỏ qua frame không xử lý AI để Laptop lẹ hơn
 
-    # --- PIPELINE: 2. YOLOv11 DETECT PERSON + 3. DEEPSORT TRACKING ---
+    # --- PIPELINE: 2. YOLOv8 DETECT PERSON + 3. DEEPSORT TRACKING ---
     # Đầu ra là danh sách các sinh viên đang được theo dõi
     tracks = track(frame)
 
@@ -95,7 +95,13 @@ while True:
             # --- PIPELINE: 7. LSTM PREDICT BEHAVIOR ---
             prediction = model.predict(input_data, verbose=0)[0]
             class_id = np.argmax(prediction)
-            current_label = LABEL_MAP[class_id]
+            confidence = prediction[class_id]
+            
+            # --- BỘ LỌC NGƯỠNG TỰ TIN (CONFIDENCE THRESHOLD) ---
+            if confidence < 0.50:
+                current_label = "UNKNOWN"
+            else:
+                current_label = LABEL_MAP[class_id]
 
             # --- LƯỚI KHỬ NHIỄU GIƠ TAY (Heuristic Filter) ---
             if current_label == "HAND RAISING" or current_label == "HAND_RAISING":

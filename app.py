@@ -54,7 +54,7 @@ if uploaded_file is not None:
         st.markdown("#### 🧠 Trình xử lý AI (AI Processing Engine)")
         
     with head_col2:
-        # Hộp thoại Cài Đặt (Popover) sẽ nổi lên khi bấm vào thay vì tràn Lan ra màn hình
+        # Hộp thoại Cài Đặt (Popover) sẽ nổi lên khi bấm vào thay vì tràn ra màn hình
         with st.popover("⚙️ Cài đặt"):
             frame_skip_val = st.slider(
                 label="Điều chỉnh (Frame Skip)", 
@@ -122,12 +122,12 @@ if uploaded_file is not None:
         st.success("🎉 Phân tích hoàn tất! Dưới đây là kết quả của bạn.")
         
         st.markdown("---")
-        # MÀN HÌNH 1: Phát Video Output
+        # Phát Video Output
         st.markdown("#### 🎬 Kết Quả Phân Tích (H264 Playback)")
         st.video(output_path)
         
         st.markdown("---")
-        # MÀN HÌNH 2: Bảng Thống Kê Hành Vi
+        # Bảng Thống Kê Hành Vi
         st.markdown("#### 📊 Bảng thống kê hành vi (State Transition Table)")
         
         behavior_counts = st.session_state.behavior_data
@@ -173,7 +173,7 @@ if uploaded_file is not None:
             img_buf.seek(0)
             # --- END: RENDER BẢNG THÀNH PNG ---
             
-            # --- TẠO THANH CÔNG CỤ (BAR) ĐỂ ÉP 2 NÚT NẰM CÙNG 1 ROW (TRIỆT KHE HỞ) ---
+            # --- TẠO THANH CÔNG CỤ (BAR) ĐỂ ÉP 2 NÚT NẰM CÙNG 1 ROW ---
             st.markdown("<br>", unsafe_allow_html=True)
             btn_col1, btn_col2 = st.columns(2)
             
