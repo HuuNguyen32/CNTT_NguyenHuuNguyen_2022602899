@@ -20,18 +20,18 @@ def draw_box(frame, box, track_id=None, label=None):
     x1, y1, x2, y2 = box
 
     # CHỌN MÀU THEO NHÃN HÀNH VI (OpenCV dùng chuẩn BGR: Blue - Green - Red)
-    color = (166, 165, 149)  # Màu xám (Mặc định cho chữ Analyzing...)
+    color = (169, 169, 169)  # Màu xám (Mặc định cho chữ Analyzing...)
 
     if label is not None:
         label_lower = label.lower()
         if "writing" in label_lower:
-            color = (96, 174, 39)  # Xanh Lá
+            color = (255, 0, 0)  # Xanh Dương
         elif "sleeping" in label_lower:
-            color = (43, 57, 192)  # Đỏ
+            color = (0, 0, 255)  # Đỏ
         elif "raise" in label_lower or "raising" in label_lower:
-            color = (182, 89, 155)  # Tím
+            color = (128, 0, 128)  # Tím
         elif "reading" in label_lower:
-            color = (219, 152, 52)  # Xanh Dương
+            color = (0, 255, 0)  # Xanh Lá
         elif "unknown" in label_lower:
             color = (0, 255, 255)   # Màu Vàng
 

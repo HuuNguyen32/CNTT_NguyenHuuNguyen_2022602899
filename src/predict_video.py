@@ -96,26 +96,38 @@ while True:
             prediction = model.predict(input_data, verbose=0)[0]
             class_id = np.argmax(prediction)
             confidence = prediction[class_id]
-            
-            # --- BỘ LỌC NGƯỠNG TỰ TIN (CONFIDENCE THRESHOLD) ---
-            if confidence < 0.50:
-                current_label = "UNKNOWN"
-            else:
-                current_label = LABEL_MAP[class_id]
+            current_label = LABEL_MAP[class_id]
 
             # --- LƯỚI KHỬ NHIỄU GIƠ TAY (Heuristic Filter) ---
             if current_label == "HAND RAISING" or current_label == "HAND_RAISING":
-                current_features = buffers[track_id][-1] # Tọa độ chuẩn hóa khung hình hiện tại
-                # Theo Code 46 điểm: 15 là cổ tay trái (Tọa độ y: index 31), 16: cổ tay phải (Tọa độ y: index 33)
+                current_features = buffers[track_id][-1] 
                 left_wrist_y = current_features[31]
                 right_wrist_y = current_features[33]
                 
-                # Trục Y của MediaPipe: Số ÂM càng lớn là càng vươn lên cao.
-                # Ngưỡng -0.4 là mức nới lỏng: Tay nhấc qua cằm (Không cần phải thẳng đuột qua đầu).
-                if left_wrist_y > -0.4 and right_wrist_y > -0.4:
-                    # Phủ quyết hành vi Giơ tay (Đưa xác suất Giơ tay về 0)
-                    prediction[0] = 0.0  
-                    # Bắt AI lấy hành vi đứng hạng 2 (Reading / Writing / Sleeping) để làm kết quả
+                # Trục Y: Số ÂM càng lớn là tay càng vươn lên cao. 
+                # Ngưỡng -0.85 bắt buộc tay phải vượt hẳn qua đỉnh đầu (chống cằm/vuốt tóc chỉ khoảng -0.5)
+                is_left_raised = left_wrist_y < -0.85
+                is_right_raised = right_wrist_y < -0.85
+                
+                # Điều kiện ĐÚNG để giơ tay: Có 1 tay vượt đỉnh đầu VÀ không được giơ cả 2 tay (Vươn vai)
+                if not (is_left_raised or is_right_raised) or (is_left_raised and is_right_raised):
+                    prediction[class_id] = 0.0  
+                    class_id = np.argmax(prediction)
+                    confidence = prediction[class_id]
+                    current_label = LABEL_MAP[class_id]
+                    
+            # --- LƯỚI KHỬ NHIỄU NGỦ VÀ VIẾT (Sleeping vs Writing Filter) ---
+            # Dựa vào Khoảng cách từ Mũi (Nose - index 1) đến Vai.
+            if current_label == "SLEEPING":
+                nose_y = buffers[track_id][-1][1]
+                if nose_y < -0.4: # Tinh chỉnh cho góc Camera trên cao: Đầu ngẩng (-0.4) thì không thể là Ngủ
+                    prediction[class_id] = 0.0
+                    class_id = np.argmax(prediction)
+                    current_label = LABEL_MAP[class_id]
+            elif current_label == "WRITING" or current_label == "READING":
+                nose_y = buffers[track_id][-1][1]
+                if nose_y > 0.1: # Đầu gục hẳn xuống sâu hơn vai (> 0.1), chắc chắn là Ngủ
+                    prediction[class_id] = 0.0
                     class_id = np.argmax(prediction)
                     current_label = LABEL_MAP[class_id]
 
@@ -127,9 +139,11 @@ while True:
                 streak_labels[track_id] = current_label
                 streak_counts[track_id] = 1
 
-            # CHUYỂN TRẠNG THÁI NGAY TỨC KHẮC nếu hành động được xác nhận 2 lần liên tiếp
-            # Vừa đáp ứng nhanh (Real-time), vừa chống chớp giật nhãn (Flicker)
-            if streak_counts[track_id] >= 2:
+            # CHUYỂN TRẠNG THÁI:
+            # 1. Ngay lập tức nếu là lần đoán đầu tiên (Chưa có nhãn) -> Chống lỗi Cold Start (Phản hồi tức thì)
+            # 2. Hoặc nếu nhãn được xác nhận 2 lần liên tiếp (Debounce) -> Chống chớp giật nhãn
+            is_first_guess = track_id not in stable_labels or stable_labels.get(track_id) == "Vui long doi..."
+            if is_first_guess or streak_counts[track_id] >= 2:
                 stable_labels[track_id] = current_label
 
             label = stable_labels[track_id]

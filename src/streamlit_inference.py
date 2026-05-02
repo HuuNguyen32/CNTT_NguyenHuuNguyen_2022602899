@@ -121,12 +121,7 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                 prediction = model.predict(input_data, verbose=0)[0]
                 class_id = np.argmax(prediction)
                 confidence = prediction[class_id]
-                
-                # --- BỘ LỌC NGƯỠNG TỰ TIN (CONFIDENCE THRESHOLD) ---
-                if confidence < 0.50:
-                    current_label = "UNKNOWN"
-                else:
-                    current_label = LABEL_MAP[class_id]
+                current_label = LABEL_MAP[class_id]
 
                 # --- LƯỚI KHỬ NHIỄU GIƠ TAY (Heuristic Filter) ---
                 if current_label == "HAND RAISING" or current_label == "HAND_RAISING":
@@ -134,15 +129,29 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                     left_wrist_y = current_features[31]
                     right_wrist_y = current_features[33]
                     
-                    if left_wrist_y > -0.8 and right_wrist_y > -0.8:
+                    is_left_raised = left_wrist_y < -0.85
+                    is_right_raised = right_wrist_y < -0.85
+                    
+                    if not (is_left_raised or is_right_raised) or (is_left_raised and is_right_raised):
                         prediction[class_id] = 0.0  
                         class_id = np.argmax(prediction)
                         confidence = prediction[class_id]
+                        current_label = LABEL_MAP[class_id]
                         
-                        if confidence < 0.50:
-                            current_label = "UNKNOWN"
-                        else:
-                            current_label = LABEL_MAP[class_id]
+                # --- LƯỚI KHỬ NHIỄU NGỦ VÀ VIẾT (Sleeping vs Writing Filter) ---
+                if current_label == "SLEEPING":
+                    nose_y = buffers[track_id][-1][1]
+                    if nose_y < -0.4: 
+                        prediction[class_id] = 0.0
+                        class_id = np.argmax(prediction)
+                        current_label = LABEL_MAP[class_id]
+                elif current_label == "WRITING" or current_label == "READING":
+                    nose_y = buffers[track_id][-1][1]
+                    if nose_y > 0.1: 
+                        prediction[class_id] = 0.0
+                        class_id = np.argmax(prediction)
+                        current_label = LABEL_MAP[class_id]
+
                 
                 # --- CƠ CHẾ CẬP NHẬT REALTIME (STATE MACHINE) ---
                 if current_label == st.session_state.streak_labels.get(track_id):
@@ -151,7 +160,8 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                     st.session_state.streak_labels[track_id] = current_label
                     st.session_state.streak_counts[track_id] = 1
 
-                if st.session_state.streak_counts[track_id] >= 2:
+                is_first_guess = track_id not in st.session_state.stable_labels or st.session_state.stable_labels.get(track_id) == "Analyzing..."
+                if is_first_guess or st.session_state.streak_counts[track_id] >= 2:
                     old_label = st.session_state.stable_labels.get(track_id, "Analyzing...")
                     st.session_state.stable_labels[track_id] = current_label
                     

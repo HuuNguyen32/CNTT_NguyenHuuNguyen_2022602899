@@ -85,11 +85,10 @@ if uploaded_file is not None:
         # Chỉ hiện Legend khi Video bắt đầu chạy
         legend_placeholder.markdown(
             "### 🎨 Legend\n\n"
-            "🟢 Writing\n\n"
-            "🟦 Reading\n\n"
+            "🟢 Reading\n\n"
+            "🟦 Writing\n\n"
             "🔴 Sleeping\n\n"
             "🟣 Raise Hand\n\n"
-            "🟨 Unknown\n\n"
             "⬜ Analyzing"
         )
         
@@ -128,7 +127,7 @@ if uploaded_file is not None:
         
         st.markdown("---")
         # Bảng Thống Kê Hành Vi
-        st.markdown("#### 📊 Bảng thống kê hành vi (State Transition Table)")
+        st.markdown("#### 📊 Bảng thống kê hành vi (Behavior Statistics Table)")
         
         behavior_counts = st.session_state.behavior_data
         if behavior_counts:

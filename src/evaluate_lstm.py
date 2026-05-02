@@ -23,6 +23,7 @@ LABELS = {
 # Đảo ngược Dict để in tên nhãn cho đẹp
 REVERSE_LABELS = {v: k for k, v in LABELS.items()}
 
+
 def load_data():
     X = []
     y = []
@@ -38,8 +39,9 @@ def load_data():
                 y.append(label_id)
     return np.array(X), np.array(y)
 
+
 def evaluate_model():
-    print("[*] Đang tải mô hình đã huấn luyện...")
+    print("[*] Đang tải mô hình LSTM...")
     if not os.path.exists(LSTM_MODEL_PATH):
         print(f"[-] Lỗi: Không tìm thấy mô hình tại {LSTM_MODEL_PATH}")
         return
@@ -48,7 +50,7 @@ def evaluate_model():
 
     print("[*] Đang tải dữ liệu kiểm thử (Evaluation Data)...")
     X, y_true = load_data()
-    
+
     if len(X) == 0:
         print("[-] Không có dữ liệu để đánh giá.")
         return
@@ -65,15 +67,16 @@ def evaluate_model():
     print("\n================ MA TRẬN NHẦM LẪN (CONFUSION MATRIX) ================\n")
     cm = confusion_matrix(y_true, y_pred)
     print(cm)
-    
+
     # Đoạn này sẽ tự động lưu ảnh Confusion Matrix ra giúp bạn chèn lên báo cáo
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=target_names, yticklabels=target_names)
     plt.ylabel('Thực tế (True Label)')
     plt.xlabel('Dự đoán của AI (Predicted Label)')
     plt.title('Ma trận nhầm lẫn (Confusion Matrix) của mô hình LSTM')
     plt.savefig('confusion_matrix_results.png')
-    print("\n[+] Đã lưu hình ảnh biểu đồ vào file 'confusion_matrix_results.png' (Bạn hãy chèn ảnh này vào Word).")
+    print("\n[+] Đã lưu hình ảnh biểu đồ vào file 'confusion_matrix_results.png'")
+
 
 if __name__ == "__main__":
     if hasattr(sys.stdout, 'reconfigure'):
