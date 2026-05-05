@@ -78,8 +78,18 @@ if uploaded_file is not None:
     progress_bar = st.empty()
     status_text = st.empty()
 
-    # Nút Bấm Xử lý
-    if st.button("🚀 BẮT ĐẦU PHÂN TÍCH (AI INFERENCE)", use_container_width=True):
+    # Khởi tạo trạng thái bảo vệ Nút Bấm
+    if 'is_analyzing' not in st.session_state:
+        st.session_state.is_analyzing = False
+
+    def start_analysis():
+        st.session_state.is_analyzing = True
+        st.session_state.analysis_complete = False
+
+    # Nút Bấm Xử lý (Sẽ bị Khóa/Mờ đi khi đang chạy)
+    st.button("🚀 BẮT ĐẦU PHÂN TÍCH (AI INFERENCE)", use_container_width=True, on_click=start_analysis, disabled=st.session_state.is_analyzing)
+
+    if st.session_state.is_analyzing:
         status_text.warning("⏳ Đang phân tích video...")
         
         # Chỉ hiện Legend khi Video bắt đầu chạy
@@ -114,6 +124,10 @@ if uploaded_file is not None:
             import traceback
             st.error(f"❌ Xảy ra lỗi trong quá trình phân tích: {e}")
             st.error(traceback.format_exc())
+            
+        finally:
+            st.session_state.is_analyzing = False
+            st.rerun()
 
     # --- KHU VỰC HIỂN THỊ KẾT QUẢ ĐỘC LẬP ---
     if st.session_state.get('analysis_complete', False):

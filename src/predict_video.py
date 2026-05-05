@@ -80,7 +80,9 @@ while True:
                 continue
 
         if track_id not in buffers:
-            buffers[track_id] = []
+            # Khởi tạo đệm bằng cách lặp lại frame đầu tiên 29 lần (Pre-fill Buffer)
+            # Chống độ trễ (Cold Start) giúp LSTM nhận diện ngay lập tức ở frame đầu tiên
+            buffers[track_id] = [features] * 29
 
         # Thêm 66 điểm đặc trưng vào dãy sequence
         buffers[track_id].append(features)
@@ -127,9 +129,7 @@ while True:
             elif current_label == "WRITING" or current_label == "READING":
                 nose_y = buffers[track_id][-1][1]
                 if nose_y > 0.1: # Đầu gục hẳn xuống sâu hơn vai (> 0.1), chắc chắn là Ngủ
-                    prediction[class_id] = 0.0
-                    class_id = np.argmax(prediction)
-                    current_label = LABEL_MAP[class_id]
+                    current_label = "SLEEPING" # Lệnh Ép cứng Nhãn (Hard Override)
 
             # --- CƠ CHẾ CẬP NHẬT REALTIME (STATE MACHINE) ---
             # Nếu nhãn mới giống với streak hiện tại, tăng điểm xác nhận

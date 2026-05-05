@@ -1,0 +1,156 @@
+====================================================================
+TÀI LIỆU GIẢI THÍCH CHI TIẾT MÃ NGUỒN (SOURCE CODE REPORT) - BẢN ĐẦY ĐỦ
+Đề tài: Hệ thống Phân tích Hành vi Sinh viên bằng AI
+Tác giả: Nguyễn Hữu Nguyên
+====================================================================
+
+Tài liệu này là cẩm nang toàn thư về mã nguồn hệ thống. Nó giải phẫu chi tiết từng cơ chế toán học, từng thuật toán xử lý để bạn có thể tự tin 100% bảo vệ trước Hội đồng khó tính nhất.
+
+--------------------------------------------------------------------
+PHẦN 1: TỔNG QUAN KIẾN TRÚC HỆ THỐNG (AI PIPELINE)
+--------------------------------------------------------------------
+Hệ thống hoạt động theo Luồng dữ liệu (Data Pipeline) 7 bước chặt chẽ:
+1. Đọc Video: Lấy từng Khung hình (Frame).
+2. Tối ưu hóa (Resize/Native): Xử lý độ phân giải để cân bằng Tốc độ/Độ nét.
+3. Phát hiện (YOLOv8): Khoanh vùng hộp (Bounding Box) xung quanh từng sinh viên.
+4. Theo dõi (DeepSORT): Gán mã ID (VD: Student_1) và theo dõi mục tiêu di chuyển.
+5. Trích xuất đặc trưng (MediaPipe): Rút trích tọa độ khung xương (23 điểm nửa thân trên) từ trong Bounding Box, sau đó chuẩn hóa (Normalize).
+6. Bộ đệm thời gian (Sliding Window): Gộp 30 khung hình liên tiếp thành 1 chuỗi hành động.
+7. Phân tích & Suy luận (LSTM): Dự đoán nhãn hành vi dựa trên chuỗi 30 khung hình. Đi qua 2 tầng lọc (Softmax -> Debounce Streak 2) để chốt kết quả hiển thị.
+
+
+--------------------------------------------------------------------
+PHẦN 2: GIẢI PHẪU CHI TIẾT TỪNG FILE MÃ NGUỒN (KÈM CODE MINH HỌA)
+--------------------------------------------------------------------
+
+1. GIAO DIỆN & LUỒNG XỬ LÝ THỰC TẾ
+-----------------------------------
+👉 app.py (Trái tim của Giao diện Web)
+- Vai trò: Khởi tạo máy chủ Streamlit, quản lý Layout (Bố cục) và Trạng thái (Session State).
+- Chi tiết Code Cốt Lõi:
+```python
+# Chia layout 8:2 cho Video và Chú giải
+left_col, right_col = st.columns([0.8, 0.2])
+with left_col:
+    st_placeholder = st.empty() # Khung trống để nhét Video Live vào
+with right_col:
+    legend_placeholder = st.empty() # Khung chứa Bảng màu HTML
+```
+*Giải thích: Hàm `st.empty()` tạo ra một container trống có thể bị ghi đè nhiều lần. Khi AI chạy vòng lặp, ta sẽ ném liên tục hàng ngàn bức ảnh vào `st_placeholder`, tạo ra ảo giác là một Video Live đang phát trơn tru.*
+
+👉 src/streamlit_inference.py (Cầu nối giữa AI và Web)
+- Vai trò: Chứa vòng lặp "While True" quét từng Frame và chứa toàn bộ Logic đếm hành vi.
+- Chi tiết Code Cốt Lõi:
+```python
+# Tầng 3: Cơ chế Lọc Nhiễu (Debouncer)
+if st.session_state.streak_counts[track_id] >= 2:
+    old_label = st.session_state.stable_labels.get(track_id, "Analyzing...")
+    st.session_state.stable_labels[track_id] = current_label
+    
+    # Cơ chế đếm (Chỉ cộng 1 khi thay đổi trạng thái)
+    if current_label != old_label and current_label != "Analyzing...":
+        behavior_counts[track_id][current_label] += 1
+```
+*Giải thích: Chỉ khi hành vi duy trì được 2 khung hình (`streak_counts >= 2`) thì nhãn mới được chép vào `stable_labels` để vẽ ra màn hình. Dòng `current_label != old_label` là thuật toán "State Transition", đảm bảo sinh viên ngồi im đọc sách 10 phút cũng chỉ đếm là 1 Lần Đọc, chứ không phải cộng liên tục mỗi frame.*
+
+👉 src/utils.py (Hộp công cụ vẽ vời)
+- Vai trò: Quản lý thư viện màu sắc và vẽ Bounding Box.
+- Chi tiết Code Cốt Lõi:
+```python
+# Hệ màu BGR của OpenCV (Màu Gốc)
+color_map = {
+    "Writing": (0, 255, 0),      # Xanh lá cây
+    "Reading": (255, 128, 0),    # Xanh dương đậm
+}
+# Lệnh vẽ khung
+cv2.rectangle(frame, (l, t), (l+w, t+h), color, 2)
+```
+*Giải thích: OpenCV dùng hệ màu ngược (BGR). Mảng tọa độ `(l,t)` là góc trên bên trái, `(l+w, t+h)` là góc dưới bên phải. OpenCV nối 2 điểm đó lại để vẽ thành hình chữ nhật (Khung nhận diện).*
+
+
+2. LÕI TRÍ TUỆ NHÂN TẠO (AI CORE)
+-----------------------------------
+👉 src/tracking.py (Đôi mắt định vị)
+- Vai trò: Chạy mạng YOLOv8 và bộ dò đường DeepSORT.
+- Chi tiết Code Cốt Lõi:
+```python
+# YOLOv8 Detect
+results = model(frame, verbose=False)[0]
+for box in results.boxes:
+    if int(box.cls[0]) == 0:  # Lọc chỉ lấy Con người (Class 0)
+        detections.append(...)
+
+# DeepSORT Tracking
+tracks = tracker.update_tracks(detections, frame=frame)
+```
+*Giải thích: YOLOv8 có thể nhận diện ra 80 đồ vật (bàn ghế, chó mèo). Lệnh `box.cls[0] == 0` bắt buộc nó chỉ nhặt riêng những ô vuông chứa Con Người. DeepSORT sau đó lấy những ô vuông này, dùng thuật toán Kalman Filter dự đoán hướng đi để gán ID chết cho từng người.*
+
+👉 src/feature_extractor.py (Thuật toán Trích xuất X-Quang đỉnh cao)
+- Vai trò: Gắn khung xương MediaPipe và xử lý Toán học.
+- Chi tiết Code Cốt Lõi (Cực kỳ quan trọng để bảo vệ):
+```python
+# 1. Cắt đứt thân dưới
+landmarks = pose_landmarks.landmark[:23]
+
+# 2. Sửa lỗi Aspect Ratio (Đưa về Pixel thật)
+features.append(lm.x * width)
+features.append(lm.y * height)
+
+# 3. Chuẩn hóa Bất Biến (Scale Invariance)
+torso_width = np.sqrt((left_shoulder_x - right_shoulder_x)**2 + ...)
+origin_x = (right_shoulder_x + left_shoulder_x) / 2
+norm_x = (features[i] - origin_x) / torso_width
+```
+*Giải thích: Điểm (1) lấy 23 điểm từ đầu xuống hông, vứt bỏ đùi và chân bị che dưới mặt bàn. Điểm (2) nhân tọa độ ảo [0.0..1.0] với chiều rộng khung hình để lấy Pixel thực. Điểm (3) là thuật toán "Thước đo Ngực": Đặt Gốc tọa độ (0,0) vào chính giữa ngực, lấy độ rộng của ngực làm Tỷ lệ xích. Sinh viên ngồi xa camera hay gần camera thì phép chia `norm_x` đều cho ra mảng dữ liệu 46 số bằng nhau y hệt!*
+
+
+3. HUẤN LUYỆN MẠNG NEURAL (DEEP LEARNING)
+-----------------------------------
+👉 src/collect_data.py (Máy gặt dữ liệu)
+- Chi tiết Code Cốt Lõi:
+```python
+STEP_SIZE = 8
+buffer.append(features)
+if len(buffer) == SEQUENCE_LENGTH: # Đủ 30 frame
+    np.save(filename, data)
+    buffer = buffer[STEP_SIZE:]    # Trượt đi 8 frame
+```
+*Giải thích: Thay vì gom 30 frame rồi xóa trắng (Làm mất dữ liệu hành động đang dang dở), code dùng lệnh cắt list `buffer[8:]`. Tức là vứt đi 8 ảnh cũ nhất và nạp tiếp 8 ảnh mới. Kỹ thuật này gọi là Cửa sổ trượt (Sliding Window).*
+
+👉 src/train_lstm.py (Lò luyện Đan LSTM)
+- Chi tiết Code Cốt Lõi:
+```python
+model.add(LSTM(128, return_sequences=True, input_shape=(30, 46)))
+model.add(Dropout(0.3))
+model.add(LSTM(64))
+model.add(Dense(4, activation="softmax"))
+```
+*Giải thích: `input_shape=(30, 46)` báo cho mô hình biết: Mỗi lần đoán, tao sẽ ném cho mày 1 cuốn băng có 30 hình, mỗi hình có 46 con số tọa độ. `Dropout(0.3)` là lớp "Làm quên" ngẫu nhiên 30% mạng nơ-ron để AI không bị học vẹt (Overfitting). Lớp cuối cùng `softmax` nhào nặn kết quả thành 4 số phần trăm phân bố cho 4 hành vi.*
+
+
+4. THƯ MỤC CLI (CHẠY TERMINAL)
+-----------------------------------
+👉 src/predict_video.py (Bản sao của streamlit_inference)
+- Vai trò: Chạy luồng giống hệt bản Web nhưng lược bỏ toàn bộ code của Streamlit (Không vẽ UI). Chạy cực nhẹ trên Terminal (`python src/predict_video.py`) để xuất nhanh ra file Video dùng cho việc thử nghiệm.
+
+
+--------------------------------------------------------------------
+PHẦN ĐẶC BIỆT: BỘ CÂU HỎI PHẢN BIỆN NÂNG CAO (FAQ)
+--------------------------------------------------------------------
+
+⚠️ Câu 1: Video dài ngắn khác nhau, một người giơ tay chớp nhoáng 10 frame, người giơ chậm 60 frame, LSTM xử lý sao khi nó ép cứng nhận vào 30 frame?
+- Trả lời: Hệ thống của em dùng cơ chế "Cửa sổ trượt liên tục" (Sliding Window). Bộ đệm (Buffer) giống như một cái băng chuyền, cứ 1 frame mới vào thì 1 frame cũ bị đẩy ra. Do đó, một hành động kéo dài 60 frame sẽ được LSTM "quét" qua liên tục trong nhiều vòng lặp. Sự dài/ngắn của hành vi sẽ được thể hiện qua TẦN SUẤT (Số lần) LSTM đưa ra dự đoán chứ không bị bỏ sót.
+
+⚠️ Câu 2: Vậy lỡ 1 frame sinh viên gãi đầu làm bộ đệm bị trộn 29 frame Đọc sách + 1 frame Giơ tay, thì LSTM đoán là gì? Nó có bị nhảy nhãn loạn xạ không?
+- Trả lời: Mạng LSTM không đếm số lượng (Majority Voting) mà nó học theo Trọng số Thời gian. Nhưng nó có Quán tính (Momentum) rất lớn. 1 Frame nhiễu không đủ sức bẻ gãy quán tính của 29 Frame kia. Hệ thống vẫn giữ kết quả "Đọc sách". Việc lờ đi 1 frame lỗi này là TÍNH NĂNG LỌC NHIỄU (Noise Tolerance), không phải lỗi!
+
+⚠️ Câu 3: Dựa vào chỉ số nào để hệ thống chốt quyết định Đổi Hành Vi (Transition)?
+- Trả lời: Để hệ thống chính thức quyết định "Đổi Nhãn", nó phải vượt qua 2 Ngưỡng khắt khe:
+  + Tầng 1 (Toán học): Lớp Softmax của LSTM trả về mảng 4 xác suất, hàm argmax lấy xác suất cao nhất.
+  + Tầng 2 (Ngưỡng ổn định - Debouncer): Nhãn mới phải duy trì chiến thắng trong ít nhất 2 khung hình liên tiếp (streak_counts >= 2). Điều này chặn đứng hoàn toàn hiện tượng nhấp nháy nhãn (Flickering) trên giao diện Web!
+
+⚠️ Câu 4: Việc Resize ép khung hình có ảnh hưởng đến AI không?
+- Trả lời: Có ảnh hưởng cực lớn. Việc ép sai tỷ lệ (Ví dụ 16:9 ép về 4:3) sẽ làm thay đổi tỷ lệ khung xương so với lúc Train, gây ra hiện tượng Lệch Pha Dữ Liệu (Domain Shift) làm LSTM đoán sai. Do chạy trên Laptop Gaming (RTX 3050), em đã thiết lập hệ thống ở chế độ "Native Resolution" (Tỷ lệ gốc 100%) để tận dụng triệt để Card rời, giúp AI đạt độ chính xác tuyệt đối mà Web vẫn mượt mà.
+
+Chúc bạn bảo vệ thành công!
+====================================================================

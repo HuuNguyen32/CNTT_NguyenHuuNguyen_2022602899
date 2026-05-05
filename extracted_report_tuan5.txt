@@ -1,0 +1,717 @@
+BỘ CÔNG THƯƠNG
+ĐẠI HỌC CÔNG NGHIỆP HÀ NỘI
+======***======
+ĐỒ ÁN TỐT NGHIỆP ĐẠI HỌC
+NGÀNH CÔNG NGHỆ THÔNG TIN
+ XÂY DỰNG HỆ THỐNG PHÁT HIỆN VÀ PHÂN TÍCH HÀNH VI SINH VIÊN TRONG LỚP HỌC DỰA TRÊN DEEP LEARNING
+Hà Nội – Năm 2026
+LỜI CẢM ƠN
+Trong bối cảnh cuộc cách mạng công nghệ thông tin và trí tuệ nhân tạo đang phát triển mạnh mẽ, việc ứng dụng công nghệ vào giáo dục trở nên cấp thiết hơn bao giờ hết. Đề tài tốt nghiệp “Xây dựng hệ thống phát hiện và phân tích hành vi sinh viên trong lớp học dựa trên Deep Learning” là một bước tiến quan trọng, hướng đến việc tối ưu hóa quản lý lớp học và tạo ra môi trường học tập hiệu quả, hiện đại.
+Chúng ta đều nhận thấy rằng việc quản lý lớp học không chỉ đòi hỏi kiến thức chuyên môn về giảng dạy mà còn cần sự hỗ trợ từ các công cụ công nghệ để theo dõi và đánh giá hành vi của sinh viên. Hệ thống phát hiện và phân tích hành vi trong lớp học sẽ giúp chúng ta nắm bắt được những thông tin quan trọng, từ đó đưa ra các biện pháp phù hợp nhằm tạo ra môi trường học tập tích cực, an toàn và công bằng.
+Em xin bày tỏ lòng biết ơn sâu sắc đến thầy ThS. Nguyễn Tuấn Anh, người đã tận tình hướng dẫn, định hướng và truyền đạt những kiến thức quý báu trong suốt quá trình thực hiện đề tài. Nhờ sự chỉ bảo của thầy, em đã có cơ hội củng cố và rèn luyện nhiều kỹ năng quan trọng trong việc xây dựng ứng dụng xử lý hình ảnh, ứng dụng trí tuệ nhân tạo và học sâu vào thực tiễn. Đây chắc chắn sẽ là hành trang quý giá cho sự nghiệp của em sau này.
+	Do thời gian và nguồn lực có hạn, hệ thống hiện tại vẫn còn nhiều thiếu sót: mới chỉ phát hiện được các hành vi rõ ràng, chưa xử lý được những hành vi phức tạp; chưa tối ưu để hoạt động trong thời gian thực; và chưa có giao diện trực quan để người dùng dễ dàng tinh chỉnh. Vì vậy, em rất mong nhận được sự đóng góp ý kiến từ quý thầy cô để có thể cải thiện, hoàn thiện hệ thống, tiến tới ứng dụng thực tiễn trong tương lai.
+							Em xin trân trọng cảm ơn!
+MỤC LỤC
+DANH MỤC CÁC CHỮ VIẾT TẮT	iii
+DANH MỤC HÌNH ẢNH, HÌNH VẼ	v
+DANH MỤC BẢNG BIỂU	vii
+MỞ ĐẦU	1
+1. Lí do chọn đề tài	1
+2. Mục tiêu của đề tài	1
+3. Nội dung nghiên cứu	1
+4. Phạm vi đề tài	2
+5. Kết quả dự kiến đạt được	3
+6. Bố cục đề tài	3
+CHƯƠNG 1: TỔNG QUAN VỀ DEEP LEARNING VÀ MÔ HÌNH CNN	5
+1.1. Deep Learning là gì?	5
+1.2. Deep Learning hoạt động như thế nào?	5
+1.3. Ưu và nhược điểm của Deep Learning	7
+1.4. Ứng dụng của Deep Learning vào đời sống	7
+1.4.1 Ứng dụng trong Digital Marketing	8
+1.4.2. Ứng dụng trong chế tạo Robot	8
+1.4.3. Ứng dụng trong hệ thống lái xe tự động	9
+1.4.4. Ứng dụng trong trợ lý ảo	10
+1.4.5. Ứng dụng trong nghiên cứu y học	11
+1.4.6. Ứng dụng trong nhận diện khuôn mặt	12
+1.4.7. Ứng dụng trong mua sắm và giải trí	13
+1.5. Mạng học sâu CNN	14
+1.5.1. Khái niệm chung	14
+1.5.2. Các kiểu tầng trong mạng CNN	15
+1.5.3. Thuật toán lan truyền ngược (Backpropagation)	18
+1.5.4. Ví dụ minh họa mô hình CNN	20
+CHƯƠNG 2: PHƯƠNG PHÁP PHÁT HIỆN VÀ PHÂN TÍCH HÀNH VI TRONG LỚP HỌC CỦA HỌC SINH	23
+2.1. Bài toán nhận diện đối tượng	23
+2.2. Bài toán theo dõi đối tượng	32
+2.3. Bài toán phát hiện hành vi	37
+2.3.1. Temporal regularity model (Mô hình đều đặn theo thời gian)	38
+2.3.2. Mô hình không gian-thời gian (Spatio-temporal model)	39
+2.3.3. Mô hình học đại diện (Representation learning model)	40
+2.4. Bài toán về nhận diện hành vi của học sinh trong lớp học dựa trên việc cải thiện mô hình SlowFast	41
+2.5. Xây dựng hệ thống phát hiện và phân tích hành vi trong lớp học của học sinh	47
+2.5.1 Mô hình nhận diện đối tượng YOLOv8	48
+2.5.2 Mô hình theo dõi đối tượng DeepSORT	49
+2.5.3 Mô hình phát hiện hành vi SlowFast	51
+2.5.4 Sơ đồ hệ thống	53
+CHƯƠNG 3: THỰC NGHIỆM VÀ ĐÁNH GIÁ HỆ THỐNG PHÁT HIỆN VÀ PHÂN TÍCH HÀNH VI TRONG LỚP HỌC CỦA HỌC SINH	55
+3.1. Cài đặt chương trình huấn luyện mô hình	55
+3.1.1. Tập dữ liệu	55
+3.1.2. Cài đặt chương trình huấn luyện	59
+3.1.3. Kết quả huấn luyện	64
+3.2. Thử nghiệm và đánh giá trong môi trường thực tế	65
+KẾT LUẬN	69
+TÀI LIỆU THAM KHẢO	70
+DANH MỤC CÁC CHỮ VIẾT TẮT
+DANH MỤC HÌNH ẢNH, HÌNH VẼ
+Hình 1.1: Ô tô không người lái ứng dụng Deep Learning	5
+Hình 1.2: Minh họa mạng Neural network	6
+Hình 1.3: Ứng dụng Deep Learning vào Digital Marketing giúp chiến lược Marketing thành công hơn	8
+Hình 1.4: Lĩnh vực chế tạo Robot được dự đoán sẽ phát triển hơn trong tương lai nhờ sự bùng nổ của AI	9
+Hình 1.5: Tesla – hãng xe lái tự động nổi tiếng nhất hiện nay	10
+Hình 1.6: Alexa – trợ lý ảo thông minh được phát triển bởi Amazon	11
+Hình 1.7: Deep Learning ứng dụng rộng rãi trong nghiên cứu y học	12
+Hình 1.8: Deep Learning được sử dụng trong Face ID	13
+Hình 1.9: Netflix sử dụng Deep Learning để gợi ý những bộ phim phù hợp với sở thích người xem	13
+Hình 1.10: Minh họa một ma trận 3 chiều có kích thước 6x6x3	14
+Hình 1.11: Minh họa kiến trúc của một mạng nơ-ron tích chập	14
+Hình 1.12: Minh họa quá trình tính toán tích chập (convolution)	16
+Hình 1.13: Minh họa quá trình Max Pooling trong mạng nơ-ron tích chập	17
+Hình 1.14: Minh họa lớp kết nối đầy đủ với đầu ra ReLU	18
+Hình 2.1 Kiến trúc của YOLO	23
+Hình 2.2 Kết quả nhận diện của YOLO	24
+Hình 2.3 Cấu trúc của Faster R-CNN	25
+Hình 2.4 Kết quả nhận diện Faster R-CNN	26
+Hình 2.5 Kiến trúc mô hình SSD	27
+Hình 2.6 Kết quả nhận diện SSD	28
+Hình 2.7. Ảnh minh họa nhận diện đối tượng sử dụng YOLO	29
+Hình 2.8. Kiến trúc mạng YOLOv8	29
+Hình 2.9. Ảnh minh họa Classification Loss	30
+Hình 2.10 Quá trình phát hiện và theo dõi hộp của ByteTrack	32
+Hình 2.11. Kiến trúc DeepSort	35
+Hình 2.12 Quy trình tạo SCB-ST-Dataset4	40
+Hình 2.13 Ảnh minh họa mô hình phát hiện hành vi	41
+Hình 2.14  Quá trình tạo ra bộ datasets	42
+Hình 2.15. Kiến trúc mô hình SlowFast	44
+Hình 2.16. Kiến trúc mô hình Resnet 3D	45
+Hình 2.17. Một ví dụ về mô hình SlowFast	46
+Hình 2.18. Cấu trúc hệ thống	53
+Hình 3.1. Ảnh minh họa về bộ dữ liệu Crowded Human	55
+Hình 3.2. Kết quả dự đoán của mô hình trên tập huấn luyện	56
+Hình 3.3. Kết quả dự đoán của mô hình trên tập huấn luyện	56
+Hình 3.4. Kết quả chạy của mô hình deepsort object tracking người	57
+Hình 3.5. Ảnh minh họa dữ liệu thực nghiệm	58
+Hình 3.6. Kết quả mAP huấn luyện của mô hình SlowFast	65
+Hình 3.7. Loss function của model	65
+Hình 3.8. Hình ảnh kết quả hệ thống đưa ra	66
+Hình 3.9. Hình ảnh kết quả hệ thống đưa ra	66
+Hình 3.10. Hình ảnh minh họa cho trường hợp lỗi	67
+Hình 3.11. Hình ảnh minh họa cho trường hợp lỗi	67
+DANH MỤC BẢNG BIỂU
+MỞ ĐẦU
+1. Lí do chọn đề tài
+	Trong bối cảnh chuyển đổi số đang diễn ra mạnh mẽ, trí tuệ nhân tạo (AI), đặc biệt là Deep Learning, ngày càng được ứng dụng rộng rãi trong nhiều lĩnh vực như y tế, giao thông và giáo dục. Trong đó, thị giác máy tính (Computer Vision) đã đạt được nhiều thành tựu nổi bật, cho phép máy tính có khả năng phân tích hình ảnh và video với độ chính xác cao, mở ra tiềm năng lớn trong việc xây dựng các hệ thống giám sát thông minh.
+Trong môi trường giáo dục, việc theo dõi và đánh giá mức độ tham gia học tập của sinh viên đóng vai trò quan trọng trong việc nâng cao chất lượng giảng dạy. Tuy nhiên, với các lớp học có số lượng sinh viên lớn, giảng viên gặp nhiều khó khăn trong việc quan sát và đánh giá toàn diện hành vi của từng sinh viên. Các hành vi như mất tập trung, sử dụng điện thoại, ngủ gật hoặc không tham gia vào bài giảng thường diễn ra nhưng khó được phát hiện một cách liên tục và khách quan.
+Bên cạnh đó, xu hướng xây dựng “lớp học thông minh” (Smart Classroom) đang ngày càng phát triển, trong đó các hệ thống sử dụng camera kết hợp AI để phân tích hành vi người học theo thời gian thực được xem là một giải pháp tiềm năng. Nhiều nghiên cứu đã chỉ ra rằng việc ứng dụng Computer Vision trong giáo dục có thể hỗ trợ giảng viên trong việc giám sát lớp học và cải thiện hiệu quả giảng dạy.
+Ngoài ra, nhiều mô hình Deep Learning hiện đại đã chứng minh hiệu quả trong bài toán nhận diện hành vi con người từ video, tạo nền tảng cho việc xây dựng các hệ thống phân tích hành vi trong môi trường lớp học.
+Xuất phát từ những vấn đề thực tiễn nêu trên, đề tài “Xây dựng hệ thống phát hiện và phân tích hành vi sinh viên trong lớp học dựa trên Deep Learning” được lựa chọn nhằm ứng dụng các công nghệ tiên tiến để giải quyết bài toán giám sát và đánh giá hành vi học tập trong lớp học. Hệ thống được kỳ vọng sẽ hỗ trợ giảng viên trong việc quản lý lớp học hiệu quả hơn, đồng thời góp phần nâng cao chất lượng đào tạo và hướng tới mô hình giáo dục thông minh trong tương lai.
+2. Mục tiêu của đề tài
+	Mục tiêu chính của đề tài là xây dựng một hệ thống ứng dụng Deep Learning nhằm phát hiện và phân tích một số hành vi của sinh viên trong lớp học từ dữ liệu video, góp phần hỗ trợ đánh giá mức độ tập trung và tham gia học tập của sinh viên.
+Các mục tiêu cụ thể bao gồm:
+Nghiên cứu các phương pháp và mô hình liên quan đến bài toán phát hiện đối tượng và nhận diện hành vi.
+Xây dựng pipeline xử lý dữ liệu video bao gồm phát hiện, theo dõi và phân tích hành vi.
+Áp dụng mô hình YOLO để phát hiện sinh viên trong khung hình.
+Sử dụng MediaPipe để trích xuất đặc trưng hình thể (pose).
+Xây dựng mô hình LSTM để nhận diện hành vi dựa trên chuỗi dữ liệu theo thời gian.
+Phát triển chương trình demo có khả năng hoạt động gần thời gian thực.
+3. Nội dung nghiên cứu
+Khi đối diện với bài toán phát hiện và phân tích hành vi trong lớp học của sinh viên, có nhiều phương pháp và kỹ thuật được áp dụng để nhận dạng và phân tích hành vi sinh viên một cách hiệu quả. Một số phương pháp phổ biến có thể thấy như sau: 
+Phát hiện hành vi có giám sát: Trong phương pháp này, dữ liệu huấn luyện được gán nhãn cụ thể cho từng loại hành vi như viết bài, đọc tài liệu, giơ tay phát biểu, ngủ hoặc sử dụng điện thoại. Mô hình sẽ học từ các dữ liệu đã được gán nhãn này để xây dựng khả năng phân loại hành vi. Đây là phương pháp được sử dụng phổ biến trong các hệ thống hiện nay do đạt độ chính xác cao, tuy nhiên đòi hỏi một tập dữ liệu lớn, đa dạng và được gán nhãn chính xác, điều này tốn nhiều thời gian và chi phí. 
+Phát hiện hành vi bán giám sát: Phương pháp này sử dụng kết hợp một lượng nhỏ dữ liệu đã gán nhãn và một lượng lớn dữ liệu chưa gán nhãn. Mô hình không chỉ học từ dữ liệu có nhãn mà còn tận dụng thông tin từ dữ liệu chưa gán nhãn để cải thiện khả năng nhận diện. Cách tiếp cận này đặc biệt hữu ích trong bối cảnh dữ liệu hành vi trong lớp học khó thu thập và gán nhãn đầy đủ. 
+Phát hiện hành vi không giám sát: Trong phương pháp này, mô hình không sử dụng dữ liệu gán nhãn mà tự động tìm kiếm các mẫu và cấu trúc ẩn trong dữ liệu. Phương pháp này thường được áp dụng để phát hiện các hành vi bất thường hoặc khám phá các dạng hành vi mới chưa được định nghĩa trước. Tuy nhiên, độ chính xác trong việc phân loại cụ thể các hành vi thường không cao bằng phương pháp có giám sát.
+Trong những năm gần đây, với sự phát triển mạnh mẽ của Deep Learning, nhiều mô hình hiện đại đã được áp dụng vào bài toán nhận diện hành vi con người trong video. Các mô hình như YOLO được sử dụng để phát hiện đối tượng, trong khi MediaPipe hỗ trợ trích xuất đặc trưng hình thể, và Long Short-Term Memory (LSTM) được sử dụng để phân tích chuỗi hành vi theo thời gian. Việc kết hợp các mô hình này cho phép xây dựng các hệ thống có khả năng nhận diện hành vi một cách chính xác và phù hợp với yêu cầu xử lý gần thời gian thực.
+Trên thực tế, bài toán phát hiện hành vi không chỉ được nghiên cứu trong lĩnh vực giáo dục mà còn được ứng dụng rộng rãi trong nhiều lĩnh vực khác như an ninh, y tế và giám sát thông minh. Tuy nhiên, việc áp dụng vào môi trường lớp học vẫn còn nhiều thách thức như số lượng đối tượng lớn, góc quay phức tạp và sự đa dạng trong hành vi. Do đó, việc nghiên cứu và đề xuất một hệ thống phù hợp với điều kiện thực tế là cần thiết và có ý nghĩa quan trọng.
+4. Đối tượng và phạm vi nghiên cứu	
+Đối tượng nghiên cứu:
+Hành vi của sinh viên trong lớp học được thu thập thông qua dữ liệu video.
+Các hành vi chính được xem xét bao gồm: viết bài, đọc tài liệu, giơ tay phát biểu, ngủ (nằm trên bàn) và sử dụng điện thoại.
+Các phương pháp và mô hình học sâu phục vụ cho bài toán nhận diện hành vi.
+ Phạm vi nghiên cứu:
+Dữ liệu đầu vào của hệ thống là video lớp học được ghi lại từ camera cố định với góc quay toàn cảnh.
+Đề tài chỉ tập trung xử lý dữ liệu hình ảnh, không xem xét đến yếu tố âm thanh.
+Hệ thống được xây dựng và triển khai ở mức thử nghiệm (prototype), chưa áp dụng trong môi trường thực tế quy mô lớn.
+Hướng tới khả năng xử lý gần thời gian thực nhằm phục vụ các ứng dụng giám sát và hỗ trợ giảng dạy.
+5. Ý nghĩa khoa học và thực tiễn của đề tài
+Đề tài góp phần làm rõ khả năng ứng dụng của các phương pháp học sâu trong bài toán nhận diện và phân tích hành vi con người từ dữ liệu video, đặc biệt trong môi trường lớp học – nơi có nhiều thách thức như số lượng đối tượng lớn, góc quay phức tạp và hành vi đa dạng. Việc xây dựng một pipeline xử lý hoàn chỉnh từ phát hiện, theo dõi đến phân tích hành vi giúp hệ thống hóa quy trình tiếp cận bài toán, đồng thời tạo nền tảng cho các nghiên cứu tiếp theo trong lĩnh vực thị giác máy tính và phân tích hành vi.
+Về mặt thực tiễn, đề tài hướng tới phát triển một hệ thống hỗ trợ giảng viên trong việc theo dõi và đánh giá mức độ tham gia học tập của sinh viên một cách khách quan và liên tục. Thông qua việc phân tích các hành vi tiêu biểu, hệ thống có thể giúp phát hiện các biểu hiện mất tập trung, từ đó góp phần nâng cao hiệu quả giảng dạy. Ngoài ra, kết quả của đề tài có thể được tích hợp trong mô hình lớp học thông minh, hỗ trợ tự động hóa việc giám sát và quản lý lớp học.
+Bên cạnh đó, hệ thống còn có tiềm năng mở rộng sang các lĩnh vực khác như giám sát an ninh, phân tích hành vi trong môi trường công cộng hoặc thương mại. Với khả năng xử lý gần thời gian thực, đề tài có thể được phát triển thành các ứng dụng thực tế khi được tối ưu và triển khai trên quy mô lớn.
+6. Kết quả dự kiến đạt được
+Đề tài hướng tới đạt được các kết quả chính sau:
+Xây dựng được mô hình Deep Learning cơ bản nhằm nhận diện một số hành vi của sinh viên trong lớp học từ dữ liệu video.
+Thu thập hoặc sử dụng tập dữ liệu video/hình ảnh quy mô nhỏ phục vụ cho quá trình huấn luyện và thử nghiệm mô hình.
+Phát triển chương trình thử nghiệm cho phép đưa video đầu vào và hiển thị kết quả nhận diện hành vi.
+Thực hiện huấn luyện mô hình và đánh giá kết quả thông qua một số chỉ số cơ bản như độ chính xác (accuracy).
+Phân tích kết quả thử nghiệm, từ đó đánh giá khả năng áp dụng của mô hình trong bài toán nhận diện hành vi sinh viên.
+Hoàn thiện báo cáo đồ án, trình bày rõ phương pháp, quy trình thực hiện và các kết quả đạt được.
+7. Bố cục đề tài
+Nội dung của đề tài được tổ chức thành ba chương chính, cụ thể như sau:
+Chương 1: Tổng quan về bài toán và cơ sở lý thuyết
+Chương này tập trung làm rõ bối cảnh, ý nghĩa và tầm quan trọng của bài toán phát hiện và phân tích hành vi sinh viên trong môi trường lớp học. Bên cạnh đó, các kiến thức nền tảng liên quan như học sâu (Deep Learning), thị giác máy tính và các phương pháp nhận diện hành vi từ dữ liệu video cũng được trình bày nhằm xây dựng cơ sở lý thuyết cho các nội dung nghiên cứu ở những chương tiếp theo.
+Chương 2: Phương pháp phát hiện và phân tích hành vi trong lớp học
+Trong chương này, đề tài tập trung trình bày cách tiếp cận để giải quyết bài toán phát hiện và phân tích hành vi của sinh viên trong lớp học. Nội dung chính bao gồm các bước như phát hiện đối tượng trong từng khung hình, theo dõi đối tượng qua các khung hình liên tiếp và phân tích hành vi dựa trên dữ liệu theo thời gian. Ngoài ra, chương cũng mô tả pipeline xử lý video được sử dụng trong hệ thống, từ dữ liệu đầu vào cho đến kết quả đầu ra.
+Chương 3: Xây dựng chương trình thực nghiệm và đánh giá
+Chương này tập trung vào việc xây dựng hệ thống thử nghiệm, thu thập và xử lý dữ liệu, huấn luyện mô hình và đánh giá kết quả. Ngoài ra, chương cũng phân tích hiệu quả của hệ thống trong việc nhận diện và phân loại hành vi của sinh viên trong môi trường lớp học.
+CHƯƠNG 1: TỔNG QUAN VỀ BÀI TOÁN VÀ CƠ SỞ LÝ THUYẾT
+1.1. Tổng quan bài toán
+Bài toán phát hiện và phân tích hành vi sinh viên trong lớp học hướng tới việc xây dựng một hệ thống có khả năng tự động nhận diện các hành vi học tập thông qua dữ liệu video. Hệ thống được thiết kế nhằm thay thế hoặc hỗ trợ việc quan sát thủ công, giúp quá trình theo dõi diễn ra liên tục và mang tính khách quan hơn.
+Dữ liệu đầu vào của hệ thống là video lớp học được thu thập từ nhiều nguồn khác nhau nhằm đảm bảo tính đa dạng. Cụ thể, dữ liệu bao gồm video ghi lại từ camera cố định trong lớp học, video quay bằng thiết bị di động như điện thoại, cũng như một số video thu thập từ các nguồn công khai trên Internet. Ngoài ra, trong một số trường hợp, dữ liệu được bổ sung bằng các video tạo sinh nhằm tăng sự đa dạng về tình huống và hành vi.
+Từ dữ liệu đầu vào, hệ thống cần thực hiện việc phát hiện các sinh viên trong từng khung hình, theo dõi các đối tượng qua các khung hình liên tiếp, và từ đó phân tích hành vi theo thời gian. Các hành vi được xem xét trong đề tài bao gồm: viết bài, đọc tài liệu, giơ tay phát biểu, ngủ (nằm trên bàn) và sử dụng điện thoại.
+Kết quả đầu ra của hệ thống là nhãn hành vi tương ứng với từng sinh viên theo thời gian. Trong quá trình đánh giá, các video thu thập từ môi trường thực tế được ưu tiên sử dụng nhằm đảm bảo tính khách quan của kết quả.
+1.2. Đặc điểm và thách thức của bài toán
+So với các bài toán xử lý ảnh tĩnh, việc phân tích hành vi từ video trong môi trường lớp học phức tạp hơn do nhiều yếu tố ảnh hưởng.
+Thứ nhất, số lượng sinh viên trong một khung hình thường lớn, dẫn đến hiện tượng che khuất hoặc chồng lấn giữa các đối tượng. Điều này gây khó khăn cho việc phát hiện và theo dõi từng cá thể một cách chính xác.
+Thứ hai, điều kiện ghi hình không ổn định, bao gồm ánh sáng, góc quay và chất lượng video khác nhau giữa các nguồn dữ liệu. Sự thay đổi này làm tăng độ nhiễu và ảnh hưởng đến hiệu quả của mô hình.
+Thứ ba, một số hành vi có đặc điểm hình ảnh tương đối giống nhau nếu chỉ xét trên từng khung hình riêng lẻ. Ví dụ, hành vi đọc tài liệu và sử dụng điện thoại có thể khó phân biệt nếu không xem xét thêm yếu tố chuyển động.
+Cuối cùng, dữ liệu video mang tính chuỗi theo thời gian. Do đó, việc nhận diện hành vi đòi hỏi phải khai thác mối liên hệ giữa các khung hình liên tiếp thay vì xử lý độc lập từng ảnh.
+1.3. Tổng quan các hướng tiếp cận trong nhận diện hành vi từ video
+Bài toán nhận diện hành vi từ dữ liệu video đã được nghiên cứu rộng rãi trong lĩnh vực thị giác máy tính, với nhiều hướng tiếp cận khác nhau tùy thuộc vào cách biểu diễn dữ liệu và mô hình xử lý. Nhìn chung, các phương pháp có thể được phân thành ba nhóm chính: dựa trên đặc trưng không gian, dựa trên đặc trưng không gian – thời gian, và dựa trên biểu diễn hình thể.
+1.3.1 Hướng tiếp cận dựa trên đặc trưng không gian (Spatial-based methods)
+Các phương pháp thuộc nhóm này tập trung xử lý từng khung hình độc lập, coi video như một tập hợp các ảnh tĩnh. Thông thường, các mô hình học sâu như CNN được sử dụng để trích xuất đặc trưng từ từng frame, sau đó thực hiện phân loại hành vi.
+Ưu điểm của hướng tiếp cận này là đơn giản, dễ triển khai và có thể tận dụng các mô hình đã được huấn luyện sẵn trên các tập dữ liệu lớn. Tuy nhiên, hạn chế lớn nhất là không khai thác được thông tin theo thời gian giữa các khung hình. Do đó, phương pháp này thường không đạt hiệu quả cao đối với các hành vi có tính liên tục hoặc cần quan sát sự thay đổi theo thời gian, chẳng hạn như phân biệt giữa hành vi đọc tài liệu và sử dụng điện thoại.
+1.3.2 Hướng tiếp cận dựa trên đặc trưng không gian – thời gian (Spatio-temporal methods)
+Để khắc phục hạn chế của các phương pháp chỉ sử dụng thông tin không gian, nhiều nghiên cứu đã kết hợp cả hai yếu tố không gian và thời gian trong quá trình nhận diện hành vi. Một số mô hình tiêu biểu bao gồm 3D CNN hoặc các kiến trúc kết hợp giữa CNN và các mô hình xử lý chuỗi như LSTM.
+Trong hướng tiếp cận này, video được xem như một chuỗi liên tục, trong đó mỗi khung hình không chỉ mang thông tin riêng lẻ mà còn có mối liên hệ với các khung hình trước và sau. Các mô hình có khả năng học được sự thay đổi của đặc trưng theo thời gian, từ đó cải thiện độ chính xác trong việc nhận diện hành vi.
+Mặc dù đạt hiệu quả cao hơn, các phương pháp này thường yêu cầu tài nguyên tính toán lớn và dữ liệu huấn luyện có kích thước đủ lớn để đảm bảo khả năng học của mô hình.
+1.3.3 Hướng tiếp cận dựa trên biểu diễn hình thể (Skeleton-based methods)
+Một hướng tiếp cận khác là sử dụng thông tin khung xương của cơ thể người để biểu diễn hành vi. Thay vì xử lý trực tiếp ảnh hoặc video, phương pháp này trích xuất các điểm khớp (keypoints) của cơ thể và sử dụng chúng như đặc trưng đầu vào cho mô hình.
+Ưu điểm của phương pháp này là giảm ảnh hưởng của các yếu tố môi trường như ánh sáng, màu sắc hay nền cảnh, đồng thời tập trung vào chuyển động và tư thế của con người. Điều này đặc biệt hữu ích trong các bài toán nhận diện hành vi.
+Tuy nhiên, độ chính xác của phương pháp phụ thuộc lớn vào chất lượng của bước trích xuất keypoints. Trong các trường hợp bị che khuất hoặc góc quay không thuận lợi, việc xác định chính xác các điểm khớp có thể gặp khó khăn.
+1.3.4 Hướng tiếp cận kết hợp phát hiện – theo dõi – phân tích chuỗi
+Trong các bài toán thực tế, đặc biệt là môi trường có nhiều đối tượng như lớp học, một hướng tiếp cận hiệu quả là kết hợp nhiều kỹ thuật thành một pipeline hoàn chỉnh. Cụ thể, hệ thống sẽ thực hiện các bước: phát hiện đối tượng trong từng khung hình, theo dõi các đối tượng qua thời gian, trích xuất đặc trưng và cuối cùng là phân tích hành vi.
+Cách tiếp cận này cho phép theo dõi từng cá thể riêng biệt trong video, từ đó xây dựng chuỗi dữ liệu hành vi cho từng đối tượng. Điều này đặc biệt quan trọng trong bối cảnh lớp học, nơi có nhiều sinh viên xuất hiện đồng thời và có thể thực hiện các hành vi khác nhau.
+1.3.5 Nhận xét và lựa chọn hướng tiếp cận
+Từ các hướng tiếp cận đã trình bày, có thể thấy rằng mỗi phương pháp đều có những ưu điểm và hạn chế riêng. Các phương pháp chỉ dựa trên đặc trưng không gian thường không đủ để nhận diện các hành vi có tính liên tục. Trong khi đó, các phương pháp không gian – thời gian tuy hiệu quả nhưng có chi phí tính toán cao.
+Đối với bài toán phát hiện và phân tích hành vi sinh viên trong lớp học, yêu cầu đặt ra là vừa đảm bảo độ chính xác, vừa có khả năng xử lý nhiều đối tượng trong thời gian gần thực. Do đó, đề tài lựa chọn hướng tiếp cận kết hợp giữa phát hiện đối tượng, theo dõi và phân tích chuỗi thời gian. Đồng thời, việc sử dụng thêm thông tin hình thể giúp tăng khả năng phân biệt giữa các hành vi có đặc điểm tương đồng.
+Hướng tiếp cận này không chỉ phù hợp với đặc thù dữ liệu mà còn đảm bảo tính khả thi trong quá trình triển khai hệ thống thực nghiệm, sẽ được trình bày chi tiết trong chương tiếp theo.
+1.4. Cơ sở lý thuyết
+1.4.1 Học sâu (Deep Learning)
+Học sâu (Deep Learning) là một nhánh của học máy (Machine Learning), trong đó các mô hình được xây dựng dựa trên mạng nơ-ron nhân tạo nhiều lớp nhằm học và biểu diễn dữ liệu ở các mức độ trừu tượng khác nhau. Thuật ngữ “deep” (sâu) thể hiện việc sử dụng nhiều lớp xử lý liên tiếp, cho phép mô hình khai thác các đặc trưng từ đơn giản đến phức tạp trong dữ liệu.
+Các mạng nơ-ron nhân tạo được thiết kế mô phỏng một phần cơ chế hoạt động của não bộ con người, bao gồm nhiều lớp nơ-ron liên kết với nhau. Mỗi lớp đảm nhận vai trò xử lý và trích xuất đặc trưng ở một mức độ nhất định, từ đó giúp mô hình có khả năng nhận diện mẫu và đưa ra dự đoán chính xác hơn.
+Trong những năm gần đây, với sự phát triển của dữ liệu lớn (Big Data) và năng lực tính toán, các mô hình học sâu đã đạt được nhiều kết quả nổi bật, đặc biệt trong các bài toán xử lý ảnh và video. Đối với đề tài này, học sâu đóng vai trò nền tảng, cho phép xây dựng các mô hình có khả năng phát hiện đối tượng, trích xuất đặc trưng và phân tích hành vi sinh viên từ dữ liệu video lớp học.
+Hình 1.1: Minh họa cấu trúc mạng nơ-ron nhiều lớp trong Deep Learning
+1.4.2 Phát hiện đối tượng trong ảnh và video
+Phát hiện đối tượng là một bài toán quan trọng trong thị giác máy tính, nhằm xác định vị trí và phân loại các đối tượng xuất hiện trong ảnh hoặc video. Không giống như bài toán phân loại ảnh chỉ đưa ra một nhãn cho toàn bộ hình ảnh, phát hiện đối tượng cho phép xác định đồng thời nhiều đối tượng trong cùng một khung hình, kèm theo vị trí cụ thể của từng đối tượng thông qua các khung bao (bounding box).
+Trong bài toán phân tích hành vi sinh viên, phát hiện đối tượng đóng vai trò là bước khởi đầu của hệ thống, giúp xác định vị trí của từng sinh viên trong lớp học ở mỗi khung hình video. Kết quả của bước này là cơ sở để thực hiện các bước tiếp theo như theo dõi đối tượng và phân tích hành vi.
+Các phương pháp hiện đại trong phát hiện đối tượng chủ yếu dựa trên Deep Learning, cho phép xử lý nhanh và đạt độ chính xác cao. Đặc biệt, các mô hình theo hướng xử lý một bước (one-stage) như YOLO (You Only Look Once) có ưu điểm về tốc độ, phù hợp với các bài toán yêu cầu xử lý gần thời gian thực như giám sát lớp học.
+Hình 1.2: Minh họa bài toán phát hiện đối tượng trong ảnh
+1.4.3. Theo dõi đối tượng trong video
+Theo dõi đối tượng (object tracking) là quá trình xác định và duy trì danh tính của một đối tượng qua các khung hình liên tiếp trong video. Nếu như phát hiện đối tượng chỉ xác định vị trí của đối tượng tại từng thời điểm riêng lẻ, thì theo dõi đối tượng cho phép liên kết các vị trí đó theo thời gian, từ đó hình thành quỹ đạo chuyển động của từng đối tượng.
+Trong môi trường lớp học, nơi có nhiều sinh viên xuất hiện đồng thời, việc theo dõi đối tượng giúp hệ thống phân biệt và duy trì thông tin của từng cá thể qua các khung hình. Điều này đặc biệt quan trọng đối với bài toán phân tích hành vi, bởi hành vi của một sinh viên cần được quan sát liên tục theo thời gian thay vì chỉ dựa trên một khung hình đơn lẻ.
+Các phương pháp theo dõi hiện đại thường áp dụng chiến lược tracking-by-detection, trong đó kết quả từ bước phát hiện đối tượng được sử dụng làm đầu vào cho quá trình theo dõi. Ngoài thông tin vị trí, các phương pháp này còn sử dụng đặc trưng hình ảnh của đối tượng để tăng khả năng nhận diện và giảm thiểu nhầm lẫn khi có nhiều đối tượng tương tự nhau.
+Việc tích hợp theo dõi đối tượng giúp đảm bảo tính liên tục của dữ liệu, đồng thời cung cấp đầu vào ổn định cho bước phân tích hành vi, từ đó nâng cao độ chính xác của hệ thống.
+Hình 1.3: Minh họa quá trình theo dõi nhiều đối tượng trong video
+1.4.4. Trích xuất đặc trưng hình thể (Pose Estimation)
+Trích xuất đặc trưng hình thể (pose estimation) là quá trình xác định vị trí các điểm quan trọng trên cơ thể con người, chẳng hạn như đầu, vai, tay và chân, từ dữ liệu hình ảnh hoặc video. Kết quả của quá trình này thường được biểu diễn dưới dạng các điểm tọa độ (keypoints), phản ánh cấu trúc và tư thế của cơ thể.
+Trong bài toán nhận diện hành vi, việc sử dụng thông tin hình thể mang lại nhiều lợi ích so với việc chỉ sử dụng ảnh gốc. Các đặc trưng như vị trí tay, góc nghiêng của đầu hay tư thế ngồi có thể cung cấp thông tin trực tiếp về hành vi của sinh viên, ví dụ như đang viết bài, giơ tay hay ngủ gật.
+Bên cạnh đó, biểu diễn dữ liệu dưới dạng các điểm keypoint giúp giảm ảnh hưởng của các yếu tố không cần thiết như ánh sáng, màu sắc hay nền cảnh, từ đó giúp mô hình tập trung vào các đặc trưng quan trọng liên quan đến hành vi. Đây là bước trung gian quan trọng giúp chuyển đổi dữ liệu hình ảnh thành dạng dữ liệu có cấu trúc, phù hợp cho việc phân tích theo thời gian.
+Hình 1.4: Minh họa trích xuất đặc trưng hình thể (pose estimation)
+1.4.5. Phân tích hành vi dựa trên dữ liệu chuỗi thời gian	
+Hành vi của con người là một quá trình diễn ra theo thời gian, do đó việc phân tích hành vi không thể chỉ dựa trên một khung hình đơn lẻ mà cần xem xét chuỗi các khung hình liên tiếp. Bài toán này thường được tiếp cận dưới dạng xử lý dữ liệu chuỗi thời gian, trong đó mỗi phần tử của chuỗi chứa thông tin đặc trưng tại một thời điểm.
+Trong đề tài, dữ liệu đầu vào cho bước này là chuỗi các đặc trưng hình thể của từng sinh viên được thu thập qua nhiều khung hình liên tiếp. Từ chuỗi dữ liệu này, mô hình có thể học được sự thay đổi theo thời gian của các đặc trưng, qua đó phân biệt các hành vi khác nhau.
+Các mô hình học sâu dành cho dữ liệu chuỗi, điển hình như mạng nơ-ron hồi tiếp (Recurrent Neural Network - RNN) và biến thể Long Short-Term Memory (LSTM), có khả năng ghi nhớ thông tin trong quá khứ và sử dụng nó để đưa ra dự đoán ở hiện tại. Điều này đặc biệt phù hợp với bài toán nhận diện hành vi, nơi mà sự khác biệt giữa các hành vi đôi khi chỉ thể hiện rõ khi quan sát trong một khoảng thời gian đủ dài.
+Việc áp dụng các phương pháp phân tích chuỗi thời gian giúp hệ thống không chỉ nhận diện hành vi tại từng thời điểm mà còn hiểu được diễn biến của hành vi, từ đó nâng cao độ chính xác và tính ổn định của kết quả.
+Hình 1.5: Minh họa chuỗi khung hình theo thời gian (sequence)
+1.5. Các kỹ thuật và mô hình sử dụng trong đề tài
+1.5.1. Mô hình phát hiện đối tượng YOLO
+YOLO (You Only Look Once) là một trong những mô hình phát hiện đối tượng (object detection) hiện đại thuộc nhóm phương pháp one-stage. Khác với các phương pháp hai giai đoạn, YOLO thực hiện đồng thời việc xác định vị trí và phân loại đối tượng chỉ trong một lần suy luận duy nhất. Cách tiếp cận này giúp mô hình đạt được tốc độ xử lý cao, đồng thời vẫn duy trì độ chính xác ở mức phù hợp cho nhiều bài toán thực tế.
+Về nguyên lý, YOLO chia ảnh đầu vào thành một lưới và tại mỗi ô lưới, mô hình sẽ dự đoán các bounding box cùng với xác suất đối tượng tương ứng. Nhờ đó, toàn bộ quá trình phát hiện đối tượng được thực hiện một cách thống nhất và tối ưu hóa, thay vì phải trải qua nhiều bước xử lý phức tạp. Điều này làm cho YOLO trở thành một lựa chọn phổ biến trong các hệ thống yêu cầu xử lý dữ liệu theo thời gian thực.
+Trong phạm vi đề tài, YOLO được sử dụng để phát hiện vị trí của các sinh viên trong từng khung hình của video lớp học. Kết quả đầu ra của mô hình là các bounding box bao quanh từng đối tượng, cung cấp thông tin về vị trí và kích thước của các sinh viên. Đây là bước đầu tiên và có vai trò quan trọng trong pipeline, tạo nền tảng cho các bước xử lý tiếp theo như theo dõi đối tượng và trích xuất đặc trưng hình thể.
+Việc sử dụng YOLO mang lại nhiều ưu điểm đáng kể, có thể được tóm tắt như sau:
+Tốc độ xử lý cao, phù hợp thời gian thực: YOLO thực hiện phát hiện đối tượng trong một lần suy luận, giúp giảm độ trễ và đáp ứng yêu cầu xử lý video liên tục. 
+Kiến trúc đơn giản, dễ tích hợp: Mô hình end-to-end giúp giảm độ phức tạp trong việc triển khai và kết nối với các thành phần khác trong hệ thống. 
+Khả năng phát hiện nhiều đối tượng đồng thời: Có thể xử lý hiệu quả các khung hình chứa nhiều sinh viên, phù hợp với môi trường lớp học. 
+Hiệu năng ổn định trên nhiều nền tảng: Có thể triển khai trên các hệ thống có cấu hình khác nhau, từ máy tính cá nhân đến thiết bị có tài nguyên hạn chế. 
+Tuy nhiên, YOLO cũng tồn tại một số hạn chế nhất định. Độ chính xác của mô hình có thể giảm trong các trường hợp đối tượng có kích thước nhỏ hoặc bị che khuất một phần. Ngoài ra, trong môi trường có mật độ đối tượng cao như lớp học, việc phân biệt các đối tượng đứng gần nhau có thể gặp khó khăn. Bên cạnh đó, hiệu quả của mô hình phụ thuộc nhiều vào chất lượng dữ liệu huấn luyện và khả năng tổng quát hóa của mô hình.
+Trong bối cảnh của đề tài, YOLO được lựa chọn do khả năng cân bằng tốt giữa tốc độ và độ chính xác. Đặc biệt, với yêu cầu xử lý video và phát hiện nhiều đối tượng trong thời gian thực, YOLO đáp ứng hiệu quả các tiêu chí về hiệu năng và khả năng triển khai, từ đó đóng vai trò nền tảng trong toàn bộ hệ thống.
+Hình 1.6: Minh họa mô hình YOLO trong bài toán phát hiện đối tượng
+1.5.2. Thuật toán theo dõi đối tượng Deep SORT
+Deep SORT (Simple Online and Realtime Tracking with a Deep Association Metric) là một thuật toán theo dõi đa đối tượng (multi-object tracking) được phát triển nhằm cải thiện khả năng theo dõi của thuật toán SORT truyền thống. Bằng cách kết hợp thông tin vị trí với đặc trưng học sâu, Deep SORT có thể duy trì danh tính của các đối tượng qua nhiều khung hình liên tiếp một cách ổn định và chính xác hơn.
+Về nguyên lý hoạt động, Deep SORT sử dụng các bounding box từ bước phát hiện đối tượng để dự đoán vị trí của đối tượng trong khung hình tiếp theo, đồng thời kết hợp với đặc trưng hình ảnh để so khớp và gán ID cho từng đối tượng. Nhờ đó, mỗi đối tượng sẽ được gán một định danh duy nhất và được theo dõi xuyên suốt trong video.
+Trong đề tài này, Deep SORT được sử dụng để theo dõi các sinh viên sau khi đã được phát hiện bởi YOLO. Việc gán ID riêng cho từng sinh viên giúp hệ thống có thể xây dựng chuỗi dữ liệu theo thời gian cho từng đối tượng, từ đó phục vụ cho bước phân tích hành vi. Nếu không có bước tracking, hệ thống sẽ không thể đảm bảo tính liên tục của dữ liệu và việc phân tích hành vi sẽ trở nên kém chính xác.
+Các ưu điểm của Deep SORT bao gồm:
+Duy trì danh tính đối tượng ổn định: Giúp theo dõi chính xác từng sinh viên trong suốt quá trình quan sát. 
+Giảm hiện tượng nhầm lẫn giữa các đối tượng: Nhờ sử dụng thêm đặc trưng học sâu để phân biệt các cá thể. 
+Hoạt động hiệu quả trong môi trường nhiều đối tượng: Phù hợp với bối cảnh lớp học có nhiều sinh viên xuất hiện đồng thời. 
+Tương thích tốt với các mô hình phát hiện đối tượng: Có thể kết hợp dễ dàng với YOLO để tạo thành pipeline hoàn chỉnh. 
+Bên cạnh đó, Deep SORT cũng có một số hạn chế. Hiệu quả của thuật toán phụ thuộc vào chất lượng của bước phát hiện đối tượng, nếu bounding box không chính xác, việc theo dõi có thể bị ảnh hưởng. Ngoài ra, trong trường hợp đối tượng bị che khuất hoàn toàn trong một khoảng thời gian dài, thuật toán có thể mất dấu và gán lại ID mới khi đối tượng xuất hiện trở lại. Việc sử dụng đặc trưng học sâu cũng làm tăng chi phí tính toán so với các phương pháp tracking đơn giản.
+Deep SORT được lựa chọn trong đề tài do khả năng theo dõi ổn định và phù hợp với bài toán phân tích hành vi. Việc duy trì ID liên tục cho từng sinh viên là yếu tố quan trọng để xây dựng chuỗi dữ liệu theo thời gian, từ đó giúp nâng cao độ chính xác của mô hình phân tích hành vi ở các bước sau.
+Hình 1.7: Minh họa thuật toán Deep SORT trong theo dõi đối tượng
+1.5.3. Trích xuất đặc trưng hình thể với MediaPipe
+MediaPipe là một framework do Google phát triển, cung cấp các giải pháp xử lý hình ảnh và video theo thời gian thực. Trong đó, module pose estimation của MediaPipe cho phép xác định vị trí các điểm đặc trưng trên cơ thể con người một cách nhanh chóng và chính xác.
+Hệ thống pose estimation của MediaPipe thường cung cấp một tập hợp các keypoints đại diện cho các bộ phận chính của cơ thể như đầu, vai, khuỷu tay, hông và chân. Các điểm này được biểu diễn dưới dạng tọa độ trong không gian hai chiều hoặc ba chiều.
+Trong đề tài, MediaPipe được sử dụng để trích xuất đặc trưng hình thể của từng sinh viên sau khi đã được phát hiện và theo dõi. Dữ liệu đầu ra của bước này là chuỗi các keypoints theo thời gian, phản ánh tư thế và chuyển động của đối tượng.
+Việc sử dụng MediaPipe mang lại nhiều lợi ích:
+Tăng khả năng biểu diễn hành vi thông qua các đặc trưng hình thể
+Giảm ảnh hưởng của các yếu tố môi trường như ánh sáng và nền
+Tạo dữ liệu đầu vào có cấu trúc cho mô hình học sâu
+Hỗ trợ xử lý nhanh, phù hợp với yêu cầu thời gian thực
+Dễ dàng tích hợp với các thành phần khác trong hệ thống
+Tuy nhiên, MediaPipe cũng có một số hạn chế. Độ chính xác của keypoints có thể giảm khi đối tượng bị che khuất hoặc khi góc quay không thuận lợi. Ngoài ra, MediaPipe chỉ cung cấp thông tin về tư thế mà không trực tiếp xác định hành vi, do đó cần kết hợp với các mô hình khác để hoàn thiện hệ thống. Việc giảm dữ liệu từ ảnh sang keypoints cũng có thể làm mất một số thông tin ngữ cảnh.
+MediaPipe được lựa chọn do khả năng trích xuất đặc trưng nhanh, ổn định và phù hợp với bài toán phân tích hành vi dựa trên chuyển động. Việc chuyển đổi dữ liệu video sang dạng keypoints giúp giảm độ phức tạp và tăng hiệu quả cho các bước xử lý tiếp theo.
+Hình 1.8: Minh họa human pose estimation với MediaPipe
+1.5.4. Mô hình phân tích chuỗi thời gian LSTM
+LSTM (Long Short-Term Memory) là một biến thể tiêu biểu của mạng nơ-ron hồi tiếp (Recurrent Neural Network - RNN), được thiết kế nhằm khắc phục những hạn chế của RNN truyền thống trong việc xử lý dữ liệu chuỗi. Trong các bài toán liên quan đến chuỗi thời gian, một trong những thách thức lớn là khả năng ghi nhớ thông tin trong khoảng thời gian dài. Các mô hình RNN cơ bản thường gặp phải hiện tượng mất hoặc bùng nổ gradient, dẫn đến việc khó học được các mối quan hệ phụ thuộc dài hạn giữa các phần tử trong chuỗi dữ liệu. LSTM được đề xuất như một giải pháp hiệu quả cho vấn đề này.
+Về mặt nguyên lý, LSTM được xây dựng dựa trên cấu trúc các “ô nhớ” (memory cell), cho phép lưu trữ và duy trì thông tin trong thời gian dài. Bên trong mỗi ô nhớ, thông tin được kiểm soát thông qua các cơ chế cổng, bao gồm cổng vào (input gate), cổng quên (forget gate) và cổng đầu ra (output gate). Các cổng này có nhiệm vụ điều chỉnh lượng thông tin được giữ lại, cập nhật hoặc loại bỏ tại mỗi bước thời gian, từ đó giúp mô hình có khả năng chọn lọc những đặc trưng quan trọng và bỏ qua các thông tin không cần thiết. Nhờ cơ chế này, LSTM có thể học được các mối quan hệ phức tạp và duy trì ngữ cảnh của dữ liệu trong suốt quá trình xử lý chuỗi.
+Trong bài toán phân tích hành vi sinh viên, dữ liệu đầu vào không chỉ là các đặc trưng tại một thời điểm đơn lẻ mà là chuỗi các đặc trưng thay đổi theo thời gian. Cụ thể, sau khi trải qua các bước phát hiện đối tượng, theo dõi và trích xuất đặc trưng hình thể, mỗi sinh viên sẽ được biểu diễn dưới dạng một chuỗi các keypoints tương ứng với nhiều khung hình liên tiếp. Chuỗi dữ liệu này phản ánh sự biến đổi về tư thế và trạng thái của đối tượng theo thời gian, từ đó chứa đựng thông tin quan trọng để suy ra hành vi.
+LSTM được sử dụng trong đề tài nhằm khai thác đặc điểm này của dữ liệu. Thay vì chỉ dựa vào thông tin tại một khung hình, mô hình có khả năng phân tích toàn bộ chuỗi các trạng thái liên tiếp để nhận diện hành vi một cách chính xác hơn. Ví dụ, một số hành vi như “viết bài” và “sử dụng điện thoại” có thể có biểu hiện tương đối giống nhau tại một thời điểm, nhưng khi xét trong một khoảng thời gian, sự khác biệt về chuyển động của tay và tư thế cơ thể sẽ trở nên rõ ràng hơn. Nhờ khả năng ghi nhớ và phân tích chuỗi, LSTM có thể nhận diện được những khác biệt này.
+Trong phạm vi đề tài, mô hình LSTM được sử dụng với các mục tiêu chính như sau:
+Nhận đầu vào là chuỗi các đặc trưng hình thể (keypoints) của từng sinh viên theo thời gian 
+Phân tích sự thay đổi của các đặc trưng này qua các khung hình liên tiếp 
+Thực hiện phân loại hành vi tương ứng dựa trên đặc điểm của chuỗi dữ liệu 
+Việc áp dụng LSTM mang lại nhiều ưu điểm đáng kể. Trước hết, mô hình có khả năng xử lý hiệu quả dữ liệu chuỗi và nắm bắt được các mối quan hệ phụ thuộc theo thời gian, điều mà các mô hình học sâu thông thường khó thực hiện. Thứ hai, LSTM cho phép khai thác ngữ cảnh của hành vi, giúp cải thiện độ chính xác trong các trường hợp mà thông tin tại một thời điểm là chưa đủ để đưa ra kết luận. Ngoài ra, mô hình này cũng có tính linh hoạt cao và có thể kết hợp dễ dàng với các phương pháp trích xuất đặc trưng khác trong pipeline.
+Tuy nhiên, bên cạnh những ưu điểm, LSTM cũng tồn tại một số hạn chế cần được xem xét. Thứ nhất, việc huấn luyện mô hình LSTM thường yêu cầu thời gian và tài nguyên tính toán lớn hơn so với các mô hình đơn giản, đặc biệt khi xử lý các chuỗi dữ liệu dài. Thứ hai, hiệu quả của mô hình phụ thuộc nhiều vào chất lượng dữ liệu đầu vào; nếu các đặc trưng được trích xuất không chính xác hoặc bị nhiễu, kết quả phân tích hành vi có thể bị ảnh hưởng. Ngoài ra, LSTM cũng có thể gặp khó khăn khi xử lý các chuỗi quá dài hoặc khi có sự biến đổi lớn về hành vi trong thời gian ngắn.
+Trong bối cảnh của đề tài, việc lựa chọn LSTM được xem là phù hợp do đặc thù của bài toán liên quan đến dữ liệu chuỗi và yêu cầu phân tích hành vi theo thời gian. So với các phương pháp chỉ dựa trên ảnh đơn lẻ, LSTM cho phép tận dụng được thông tin động của dữ liệu, từ đó nâng cao khả năng nhận diện hành vi trong các tình huống thực tế. Mặc dù vẫn tồn tại một số hạn chế, nhưng với sự kết hợp cùng các bước xử lý trước đó như phát hiện đối tượng và trích xuất đặc trưng, LSTM đóng vai trò quan trọng trong việc hoàn thiện hệ thống phân tích hành vi sinh viên.
+Hình 1.9: Minh họa cấu trúc mạng LSTM
+1.5.5. Tổng quan pipeline của hệ thống
+Dựa trên các mô hình và phương pháp đã được trình bày ở các mục trước, hệ thống phân tích hành vi sinh viên trong lớp học được xây dựng theo một pipeline xử lý tuần tự, trong đó mỗi bước đảm nhiệm một vai trò cụ thể và có sự liên kết chặt chẽ với nhau. Pipeline này cho phép chuyển đổi dữ liệu video đầu vào thành kết quả nhận diện hành vi một cách có hệ thống và hiệu quả.
+Quy trình xử lý của hệ thống bao gồm các bước chính như sau:
+Bước 1: Nhận video đầu vào và tách thành các khung hình
+Video lớp học được sử dụng làm dữ liệu đầu vào cho hệ thống. Tại bước này, video sẽ được phân tách thành các khung hình liên tiếp theo thời gian. Việc chuyển đổi từ video sang chuỗi ảnh giúp các mô hình xử lý dễ dàng hơn, đồng thời tạo điều kiện để thực hiện các bước phân tích trên từng frame một cách độc lập.
+Bước 2: Sử dụng YOLO để phát hiện sinh viên trong từng khung hình
+Sau khi có các khung hình, mô hình YOLO được áp dụng để phát hiện vị trí của các sinh viên trong mỗi frame. Kết quả đầu ra là các bounding box bao quanh từng đối tượng, giúp xác định chính xác vị trí của từng sinh viên trong không gian ảnh. Đây là bước quan trọng nhằm tách riêng các đối tượng cần theo dõi khỏi nền cảnh.
+Bước 3: Áp dụng Deep SORT để theo dõi và gán ID cho từng đối tượng
+Dựa trên kết quả phát hiện từ YOLO, thuật toán Deep SORT được sử dụng để theo dõi các sinh viên qua các khung hình liên tiếp. Mỗi đối tượng sẽ được gán một ID duy nhất và được duy trì xuyên suốt trong video. Bước này giúp đảm bảo tính liên tục của dữ liệu, cho phép hệ thống theo dõi hành vi của từng cá thể theo thời gian thay vì chỉ phân tích từng khung hình riêng lẻ.
+Bước 4: Sử dụng MediaPipe để trích xuất đặc trưng hình thể
+Sau khi xác định và theo dõi được từng sinh viên, MediaPipe được sử dụng để trích xuất các đặc trưng hình thể của đối tượng. Cụ thể, hệ thống sẽ xác định các keypoints tương ứng với các bộ phận chính trên cơ thể như tay, chân, vai và đầu. Các keypoints này được biểu diễn dưới dạng tọa độ, giúp mô tả tư thế của đối tượng một cách có cấu trúc và dễ xử lý.
+Bước 5: Xây dựng chuỗi dữ liệu theo thời gian
+Các đặc trưng hình thể được trích xuất từ MediaPipe sẽ được sắp xếp theo thứ tự thời gian để tạo thành chuỗi dữ liệu cho từng sinh viên. Mỗi chuỗi thể hiện sự thay đổi liên tục về tư thế và chuyển động của đối tượng qua nhiều khung hình. Đây là bước trung gian quan trọng nhằm chuyển đổi dữ liệu từ dạng tĩnh sang dạng chuỗi, phù hợp cho các mô hình học sâu xử lý thời gian.
+Bước 6: Sử dụng LSTM để phân tích và nhận diện hành vi
+Chuỗi dữ liệu sau khi được xây dựng sẽ được đưa vào mô hình LSTM để thực hiện phân tích và phân loại hành vi. Nhờ khả năng ghi nhớ thông tin theo thời gian, LSTM có thể học được mối quan hệ giữa các trạng thái liên tiếp của đối tượng, từ đó đưa ra dự đoán chính xác về hành vi tương ứng như viết bài, giơ tay, sử dụng điện thoại hoặc ngủ. 
+Toàn bộ pipeline trên thể hiện cách các mô hình được kết hợp một cách hợp lý để giải quyết bài toán phân tích hành vi. Mỗi bước xử lý đều đóng vai trò riêng nhưng có sự phụ thuộc lẫn nhau, tạo thành một quy trình thống nhất từ đầu vào đến đầu ra. Việc tổ chức pipeline theo hướng tuần tự không chỉ giúp hệ thống dễ triển khai mà còn đảm bảo tính mở rộng và khả năng cải tiến trong tương lai.
+Ngoài ra, pipeline này còn cho phép tách biệt rõ ràng giữa các giai đoạn như phát hiện đối tượng, theo dõi, trích xuất đặc trưng và phân tích hành vi. Điều này giúp việc đánh giá, tối ưu hoặc thay thế từng thành phần trở nên thuận tiện hơn mà không ảnh hưởng đến toàn bộ hệ thống. Nhờ đó, hệ thống có thể linh hoạt thích ứng với các yêu cầu khác nhau trong quá trình nghiên cứu và ứng dụng thực tế.
+Hình 1.10: Pipeline hệ thống phân tích hành vi sinh viên trong lớp học
+1.6. Kết luận chương 1
+Trong chương này, đề tài đã trình bày tổng quan về bài toán phát hiện và phân tích hành vi sinh viên trong lớp học dựa trên dữ liệu video. Trước hết, các khái niệm và nền tảng liên quan đến học sâu, thị giác máy tính và xử lý dữ liệu chuỗi thời gian đã được giới thiệu nhằm làm rõ cơ sở khoa học cho việc xây dựng hệ thống.
+Bên cạnh đó, các bài toán thành phần như phát hiện đối tượng, theo dõi đối tượng, trích xuất đặc trưng hình thể và phân tích hành vi theo thời gian cũng đã được phân tích, qua đó cho thấy tính phức tạp cũng như yêu cầu kết hợp nhiều kỹ thuật khác nhau để giải quyết bài toán một cách hiệu quả.
+Đặc biệt, chương này đã trình bày các mô hình và kỹ thuật được lựa chọn sử dụng trong đề tài, bao gồm YOLO cho bài toán phát hiện đối tượng, Deep SORT cho theo dõi đối tượng, MediaPipe cho trích xuất đặc trưng hình thể và LSTM cho phân tích dữ liệu chuỗi thời gian. Việc lựa chọn các mô hình này dựa trên các tiêu chí về độ chính xác, tốc độ xử lý và khả năng áp dụng trong môi trường thực tế.
+Từ các nội dung đã trình bày, có thể thấy rằng việc kết hợp các mô hình học sâu theo một pipeline hợp lý là hướng tiếp cận phù hợp để giải quyết bài toán phân tích hành vi từ video. Những cơ sở lý thuyết và kỹ thuật trong chương này sẽ là nền tảng quan trọng cho việc xây dựng phương pháp đề xuất và triển khai hệ thống trong các chương tiếp theo.
+CHƯƠNG 2: PHƯƠNG PHÁP PHÁT HIỆN VÀ PHÂN TÍCH HÀNH VI TRONG LỚP HỌC CỦA HỌC SINH
+2.1. Phương pháp đề xuất
+Dựa trên các mô hình và cơ sở lý thuyết đã được trình bày trong Chương 1, đề tài đề xuất một hệ thống nhằm phân tích hành vi của sinh viên trong môi trường lớp học dựa trên dữ liệu video. Mục tiêu của hệ thống là tự động nhận diện và phân loại các hành vi thông qua việc khai thác thông tin không gian và thời gian từ chuỗi hình ảnh.
+Khác với phần tổng quan pipeline đã trình bày trước đó, mục này tập trung mô tả cách các thành phần trong hệ thống được tổ chức và phối hợp với nhau trong thực tế. Hệ thống được thiết kế theo kiến trúc pipeline nhiều giai đoạn, trong đó mỗi thành phần đảm nhiệm một chức năng riêng biệt nhưng có mối liên kết chặt chẽ, đảm bảo luồng xử lý dữ liệu xuyên suốt từ đầu vào đến đầu ra.
+Cụ thể, phương pháp đề xuất bao gồm các thành phần chính như sau:
+Khối phát hiện đối tượng (Detection Module): Ở giai đoạn đầu tiên, hệ thống sử dụng mô hình YOLO để phát hiện vị trí của sinh viên trong từng khung hình của video. Mô hình này cho phép xác định nhanh và chính xác các đối tượng cần quan tâm thông qua các bounding box kèm theo độ tin cậy dự đoán. Kết quả của bước này đóng vai trò là đầu vào cho các giai đoạn xử lý tiếp theo. 
+Khối theo dõi đối tượng (Tracking Module): Sau khi phát hiện, các đối tượng được theo dõi xuyên suốt các khung hình bằng thuật toán Deep SORT. Thuật toán này gán một định danh (ID) duy nhất cho mỗi đối tượng và duy trì ID đó theo thời gian. Việc theo dõi giúp đảm bảo tính nhất quán của dữ liệu và cho phép xây dựng chuỗi thông tin liên tục cho từng sinh viên.
+Khối trích xuất đặc trưng (Feature Extraction Module): Đối với mỗi đối tượng đã được theo dõi, hệ thống tiến hành trích xuất các đặc trưng hình thể thông qua MediaPipe. Các đặc trưng này bao gồm tọa độ của các điểm khớp quan trọng trên cơ thể như đầu, vai, tay,… Qua đó, hình ảnh được chuyển đổi thành dạng dữ liệu số có cấu trúc, thuận lợi cho việc xử lý và học máy.
+Khối mô hình chuỗi thời gian (Temporal Modeling Module): Các đặc trưng thu được từ nhiều khung hình liên tiếp được tổ chức thành chuỗi dữ liệu theo thời gian. Mô hình LSTM được sử dụng để học các đặc trưng động của hành vi, cho phép nắm bắt sự thay đổi tư thế theo thời gian thay vì chỉ dựa trên một khung hình tĩnh.
+Khối phân loại hành vi (Classification Module): Dựa trên đầu ra của mô hình LSTM, hệ thống thực hiện phân loại hành vi tương ứng với từng sinh viên. Các hành vi như giơ tay, ngủ gật, đọc sách hoặc viết bài được nhận diện dựa trên đặc trưng động đã học được từ dữ liệu. 
+Nhìn chung, phương pháp đề xuất tận dụng ưu điểm của từng mô hình trong từng giai đoạn cụ thể, từ phát hiện, theo dõi đến phân tích chuỗi thời gian. Việc kết hợp các thành phần này trong một pipeline thống nhất giúp hệ thống đạt được độ chính xác cao hơn trong việc nhận diện hành vi, đồng thời đảm bảo tính linh hoạt trong quá trình triển khai và mở rộng.
+Trong các mục tiếp theo của chương này, đề tài sẽ trình bày chi tiết từng thành phần trong pipeline, bao gồm mô hình phát hiện đối tượng, thuật toán theo dõi, phương pháp trích xuất đặc trưng và mô hình học chuỗi thời gian.
+2.2. Mô hình phát hiện đối tượng
+Nhận diện đối tượng (Object Detection) là một phần quan trọng trong lĩnh vực thị giác may tính. Đây là quá trình sử dụng trí tuệ nhân tạo để xác định và phân loại các vật thể khác nhau trong hình ảnh hoặc video. Thay vì chỉ nhận ra một đối tượng, nhận diện đối tượng có khả năng xác định nhiều đối tượng khác nhau cùng một lúc, đồng thời gán nhãn và xác định vị trí của đối tượng. 
+Thực tế có rất nhiều các nghiên cứu trước đó về bài toán này. Trong đó, các phương pháp tiêu biểu có thể kể đến như Faster R-CNN, SSD và YOLO. Mỗi phương pháp đều có những ưu điểm và hạn chế riêng, phù hợp với từng bài toán và môi trường triển khai khác nhau.
+2.2.1. Faster R-CNN
+Thời gian gần đây một mô hình với một một mạng kết nối đầy đủ gọi là Region Proposal Network (RPN) để tạo ra các vùng đề xuất với độ phức tạp tương đối thấp được sử dụng rộng rãi. RPN hoạt động bằng cách chia sẻ các đặc trưng tích chập được trích xuất từ mạng nơ-ron tích chập (CNN) với một mạng nơ-ron nhỏ hơn. Mạng nơ-ron nhỏ này sau đó dự đoán các hộp đề xuất và điểm số xác định đối tượng cho mỗi vị trí trong ảnh. RPN được huấn luyện đầu cuối để tạo ra các vùng đề xuất chất lượng cao, sau đó được sử dụng bởi Fast R-CNN để phát hiện đối tượng. Bằng cách kết hợp RPN và Fast R-CNN vào một mạng duy nhất, hệ thống này trở thành một mạng phát hiện đối tượng hợp nhất.
+Hình 2.1 Cấu trúc của Faster R-CNN
+Khi thử nghiệm thực tế, hệ thống Faster R-CNN đạt tốc độ khung hình 5fps (bao gồm tất cả các bước) trên GPU và đạt độ chính xác phát hiện đối tượng tiên tiến nhất trên các bộ dữ liệu PASCAL VOC 2007, 2012 và MS COCO chỉ với 300 đề xuất mỗi hình ảnh. Hơn nữa, trong các cuộc thi ILSVRC và COCO 2015, Faster R-CNN và RPN là nền tảng cho nhiều mục đạt giải nhất ở các hạng mục phát hiện và phân đoạn đối tượng ​.
+Hình 2.2 Kết quả nhận diện Faster R-CNN
+ Có thế thấy rằng phương pháp mới hiệu quả và tiết kiệm chi phí tính toán cho việc phát hiện đối tượng trong thời gian thực bằng cách sử dụng Region Proposal Networks. Phương pháp này không chỉ cải thiện tốc độ xử lý mà còn tăng độ chính xác trong việc phát hiện đối tượng. Kết quả thực nghiệm cho thấy sự vượt trội của Faster R-CNN so với các phương pháp hiện có, mở ra nhiều tiềm năng ứng dụng trong các hệ thống phát hiện đối tượng thực tế.
+2.2.2. SSD (Single Shot Detector)
+Trong một nghiên cứu về vấn đề này, nhóm tác giả Wei Liu và cộng sự đã đưa ra một giải pháp để giải quyết bài toán nhận diện đa đối tượng trong ảnh. Phương pháp này với tên gọi Single Shot Detector (SSD).
+Phương pháp SSD sử dụng:
+Matching Strategy: Sử dụng default boxes để match với ground truth boxes dựa trên jaccard overlap, đơn giản hóa việc dự đoán nhiều default boxes chồng lấp với đối tượng thay vì chỉ chọn một.
+Training Objective: Mở rộng MultiBox objective để xử lý nhiều loại đối tượng.
+Hard Negative Mining: Sắp xếp negative examples dựa trên conﬁdence loss và chọn top examples để cân bằng số lượng negatives và positives.
+Data Augmentation: Tăng cường dữ liệu để mô hình đa dạng hơn với các kích thước và hình dạng đối tượng đầu vào khác nhau.
+Hình 2.3 Kiến trúc mô hình SSD
+Sau quá trình nghiên cứu, nhóm tác giả đưa ra được một số kết quả sau
+SSD đạt được kết quả tốt trên bộ dữ liệu PASCAL VOC2007, vượt qua các phương pháp Fast R-CNN và Faster R-CNN.
+SSD hiệu quả trong việc nhận diện nhiều loại đối tượng với độ chính xác cao và tỷ lệ nhớ đạt khoảng 85-90%.
+SSD có khả năng localize đối tượng tốt hơn so với các phương pháp khác nhờ việc học trực tiếp để regress hình dạng đối tượng và phân loại loại đối tượng.
+Hình 2.4 Kết quả nhận diện SSD
+Phương pháp SSD cho bài toán nhận diện đa đối tượng trong ảnh, đạt được kết quả ưu việt so với các phương pháp trước đó như Fast R-CNN và Faster R-CNN. Phương pháp này tập trung vào việc xử lý nhiều loại đối tượng, cân bằng giữa dự đoán đúng và dự đoán sai, và tăng cường dữ liệu để cải thiện độ chính xác.
+2.2.3. YOLO (You Only Look Once)
+Sau khi xem xét các phương pháp trên, mô hình YOLO được lựa chọn để áp dụng trong hệ thống của đề tài. Thay vì trình bày lại chi tiết lý thuyết của mô hình, phần này tập trung phân tích cách YOLO xử lý dữ liệu trong bối cảnh cụ thể của bài toán.
+Cụ thể, YOLO thực hiện việc chia ảnh đầu vào thành nhiều vùng nhỏ (grid). Với mỗi vùng, mô hình sẽ dự đoán các bounding box cùng với độ tin cậy và xác suất lớp tương ứng. Cách tiếp cận này cho phép mô hình phát hiện đồng thời nhiều đối tượng trong cùng một khung hình.
+Trong bài toán phân tích hành vi sinh viên, đặc điểm của dữ liệu là video lớp học với nhiều người xuất hiện đồng thời, có sự che khuất và thay đổi tư thế liên tục. Do đó, việc sử dụng cơ chế dự đoán đồng thời của YOLO giúp đảm bảo khả năng phát hiện đầy đủ các đối tượng trong từng khung hình mà không cần xử lý tuần tự từng vùng như các phương pháp truyền thống.
+Hình 2.5 Minh họa cơ chết chia lưới của YOLO
+Một điểm quan trọng của YOLO là khả năng xử lý toàn bộ ảnh trong một lần suy luận duy nhất. Điều này giúp giảm đáng kể thời gian xử lý so với các phương pháp hai giai đoạn. Trong hệ thống đề xuất, yếu tố này đặc biệt quan trọng do dữ liệu đầu vào là video, yêu cầu xử lý liên tục nhiều khung hình trong thời gian gần thực.
+Bên cạnh đó, YOLO dự đoán trực tiếp các bounding box thay vì thông qua bước đề xuất vùng như Faster R-CNN. Điều này giúp giảm độ phức tạp của hệ thống, đồng thời giúp việc triển khai và tích hợp với các bước xử lý tiếp theo trở nên đơn giản hơn.
+Hình 2.6 Kết quả dự đoán bounding box của YOLO
+Ngoài ra, YOLO là một mô hình thống nhất trong việc phát hiện đối tượng, giúp đơn giản hóa quá trình triển khai và mở rộng hệ thống. Mô hình không chỉ dễ triển khai mà còn có khả năng học tốt trên các tập dữ liệu khác nhau, phù hợp với các bài toán thực tế.
+Trong phạm vi đề tài, YOLO được sử dụng để phát hiện các đối tượng là sinh viên trong lớp học từ dữ liệu video. Nhờ khả năng xử lý nhanh, mô hình có thể phát hiện và phân loại nhiều đối tượng trong cùng một khung hình, đảm bảo không bỏ sót đối tượng ngay cả khi số lượng lớn hoặc có sự che khuất.
+Mặc dù ưu tiên về tốc độ, YOLO vẫn duy trì độ chính xác ở mức tốt, đáp ứng yêu cầu của bài toán. Đặc biệt, trong môi trường lớp học với nhiều đối tượng nhỏ và có sự thay đổi tư thế liên tục, mô hình vẫn cho kết quả ổn định. Kiến trúc đơn giản và hiệu quả của YOLO cũng giúp việc tích hợp với các thành phần khác trong hệ thống như DeepSORT (theo dõi đối tượng) và LSTM (phân tích hành vi) trở nên thuận lợi hơn. Điều này góp phần xây dựng một pipeline xử lý hoàn chỉnh từ nhận diện, theo dõi đến phân tích hành vi.
+Mỗi mô hình vừa trình bày đều có nhưng ưu và nhược điểm riêng ứng với từng mục đích và môi trường sử dụng. Tuy nhiên để thuận tiện trong việc triển khai cài đặt, trong đồ án này sẽ sử dụng mô hình YOLO. Mô hình YOLO được sử dụng rộng rãi không chỉ ở trong nghiên cứu mà còn ở thực tế.
+Hình 2.7. Ảnh minh họa nhận diện đối tượng sử dụng YOLO
+Kiến trúc của mạng YOLOv8
+Hình 2.8. Kiến trúc mạng YOLOv8
+	YOLO sử dụng hồi quy tuyến tính để dự đoán các thông tin ở mỗi ô vuông. Do đó, ở lớp cuối cùng chúng ta sẽ không sử dụng bất kì hàm kích hoạt nào cả. Với ảnh đầu vào là 448x448, mô hình CNN có 6 tầng max-pooling với kích cỡ 2x2 sẽ giảm 64 lần kích thước ảnh xuống còn 7x7 ở kết quả đầu ra. Đồng thời thay vì sử dụng tầng kết nối đầy đủ ở các tầng cuối cùng, chúng ta có thể thay thế bằng tầng 1x1 conv với 13 feature maps để kích thước đầu ra dễ dàng cho ra 7x7x13.
+Loss function
+YOLO sử dụng hàm độ lỗi bình phương giữ dự đoán và nhãn để tính độ lỗi cho mô hình. Cụ thể, độ lỗi tổng sẽ là tổng của ba độ lỗi con sau:
+Độ lỗi của việc dữ đoán loại nhãn của object - Classification loss
+Độ lỗi của dự đoán tọa độ cũng như chiều dài, rộng của boundary box - Localization loss
+Độ lỗi của ô vuông có chứa đối tượng nào hay không - Confidence loss
+Trong quá trình huấn luyện, mô hình sẽ nhìn vào những ô vuông có chứa đối tượng. Tăng điểm phân loại lớp đúng của đối tượng đó lên. Sau đó, cũng nhìn vào ô vuông đó, tìm hộp ranh giới tốt nhất trong hai hộp được dự đoán. Tăng localization score của hộp ranh giới đó lên, thay đổi thông tin hộp ranh giới để gần đúng với nhãn. Đối với những ô vuông không chứa đối tượng, giảm confidence score và chúng ta sẽ không quan tâm đến điểm phân loại và localization score của những ô vuông này. Duới đây là chi tiết các hàm lỗi đã được sử dụng.
+Classification Loss
+Chúng ta chỉ tính classification loss cho những ô vuông được đánh nhãn là có đối tượng. Classification loss tại những ô vuông đó được tính bằng đỗ lỗi bình phương giữa đánh nhãn được dự đoán và đánh nhãn đúng của nó.
+Hình 2.9. Ảnh minh họa Classification Loss
+Ví dụ, trong hình minh họa ở trên, có hai đối tượng tại ô vuông (dòng,cột) là (2,1) và (3,4), chứa đối tượng là hình tam giác và hình tam giác đều. Độ lỗi classification loss chỉ tính cho hai đối tượng này mà không quan tâm đến những ô vuông khác. Lúc cài đặt sẽ cần lưu ý phải nhân với một mặt nạ để triệt tiêu giá trị lỗi tại những ô vuông không quan tâm.
+Localization Loss
+Localization loss dùng để tính giá trị lỗi cho boundary box được dự đoán bao gồm offset x,y và chiều dài, rộng so với nhãn chính xác của chúng ta. Các bạn nên lưu ý rằng, chúng ta không tính toán trực tiếp giá trị lỗi này trên kích thước của ảnh mà cần chuẩn dưới kính thước ảnh về đoạn [0-1] đối với tọa độ điểm tâm, và không dữ đoán trực tiếp điểm tâm mà phải dự đoán giá trị lệch offset x,y so với ô vuông tương ứng. Việc chuẩn hóa kích thước ảnh và dự đoán offset làm cho mô hình nhanh hội tụ hơn so với việc dự đoán giá trị mặc định.
+Độ lỗi localization loss được tính bằng tổng đỗ lỗi bình phương của offsetx, offsety và chiều dài, rộng trên tất cả các ô vuông có chứa đối tượng. Tại mỗi ô vuông đúng,ta chọn 1 b boundary box có IOU (Intersect over union) tốt nhất, rồi sau đó tính độ lỗi theo các boundary box này. Theo hình minh họa trên chúng ta có 4 boundary box tại ô vuông đúng có viền màu đỏ, chúng ta chọn 1 box tại mỗi ô vuông để tính độ lỗi. Còn box xanh được bỏ qua. Localization loss là độ lỗi quan trọng nhất trong 3 loại độ lỗi trên. Do đó, ta cần đặt trọng số cao hơn cho độ lỗi này.
+Confidence Loss
+Confidence loss thể hiện độ lỗi giữa dự đoán boundary box đó chứa đối tượng so với nhãn thực tế tại ô vuông đó. Độ lỗi này tính nên cả những ô vuông chứa đối tượng và không chứa đối tượng.
+Độ lỗi này là độ lỗi bình phường của dự đoán boundary đó chứa đối tượng với nhãn thực tế của ô vuông tại vị trí tương ứng, lưu ý rằng, độ lỗi tại ô vuông mà nhãn chứa đối tượng quan trọng hơn là độ lỗi tại ô vuông không chứa đối tượng, do đó cần sử dụng hệ số lambda để cân bằng điều này. Tổng kết lại, tổng lỗi sẽ bằng tổng của ba loại độ lỗi trên
+2.3. Thuật toán theo dõi đối tượng
+ByteTrack là một phương pháp theo dõi nhiều vật thể được đề xuất bởi Zhang và các cộng sự, tập trung vào việc giải quyết vấn đề theo dõi các vật thể trong video, với mục tiêu là ước tính các hộp giới hạn và danh tính của các đối tượng trong video
+Hầu hết các phương pháp Multi-Object Tracking trước đây chỉ liên kết các hộp phát hiện có độ tin cậy cao, bỏ qua các hộp phát hiện có độ tin cậy thấp, thường là các vật thể bị che khuất. Điều này dẫn đến việc bỏ sót các vật thể thực và tạo ra các hiện tượng phân mảnh. 
+Để giải quyết vấn đề này, ByteTrack đề xuất một phương pháp liên kết đơn giản nhưng hiệu quả, theo dõi bằng cách liên kết gần như mọi hộp phát hiện, không chỉ các hộp có điểm số cao. Đối với các hộp phát hiện có điểm số thấp, ByteTrack sử dụng sự tương đồng của chúng với các đoạn theo dõi (tracklet) để khôi phục các đối tượng thực và lọc ra các phát hiện nền.
+Cụ thể hơn, ByteTrack thực hiện hai bước liên kết:
+Liên kết thứ nhất: Liên kết các hộp phát hiện có điểm số cao với các tracklet dựa trên sự tương đồng về chuyển động hoặc hình dáng.
+Liên kết thứ hai: Liên kết các tracklet chưa khớp với các hộp phát hiện có điểm số thấp, chủ yếu dựa trên sự tương đồng về chuyển động.
+Hình 2.10 Quá trình phát hiện và theo dõi hộp của ByteTrack
+Khi áp dụng cho 9 tracker hiện đại khác nhau, phương pháp này đã cải thiện đáng kể điểm số IDF1, từ 1 đến 10 điểm. ByteTrack, một tracker được thiết kế dựa trên phương pháp này, đạt được 80.3 MOTA, 77.3 IDF1 và 63.1 HOTA trên tập kiểm tra của MOT17 với tốc độ 30 FPS trên một GPU V100 duy nhất. ByteTrack cũng đạt hiệu suất tốt nhất trên các benchmark MOT20, HiEve và BDD100K.
+Bảng 2.1 ByteTrack với phương pháp khác trên bộ dữ liệu MOT17
+Như vậy, ByteTrack là một phương pháp theo dõi nhiều đối tượng hiệu quả và mạnh mẽ, vượt trội hơn các phương pháp trước đó. Phương pháp này có khả năng khôi phục các vật thể bị che khuất và duy trì tính liên tục của các vật thể đó, đồng thời đạt được hiệu suất cao và tốc độ xử lý nhanh.
+Ngoài ByteTrack, DeepSORT là một phương pháp khác giúp theo dõi đa vật thể được đề xuất bởi Wojke và các cộng sự, nhằm giải quyết vấn đề theo dõi các vật thể trong video, đặc biệt là trong các tình huống khó khăn như khi vật thể bị che khuất hoặc tạm thời biến mất khỏi khung hình.
+DeepSORT kết hợp thông tin hình dạng bên ngoài của vật thể vào SORT để cải thiện khả năng theo dõi. Cụ thể, Deep SORT sử dụng mạng nơ-ron tích chập (Convolutional Neural Network - CNN) để trích xuất các đặc trưng hình dạng của các vật thể. Các đặc trưng này được nhúng vào không gian đa chiều, nơi mà khoảng cách giữa các đặc trưng đại diện cho sự tương đồng về hình dạng giữa các vật thể.
+DeepSORT sử dụng một bộ lọc Kalman để dự đoán vị trí của vật thể trong khung hình tiếp theo dựa trên các quan sát trước đó. Sau đó, nó sử dụng một thuật toán ghép cặp (matching algorithm) để liên kết các vật thể được phát hiện trong khung hình hiện tại với các track hiện có. Thuật toán ghép cặp này sử dụng một metric kết hợp giữa thông tin chuyển động (motion information) từ bộ lọc Kalman và thông tin hình dạng của vật thể từ mạng nơ-ron tích chập.
+Kết quả thực nghiệm trên tập dữ liệu MOT16 cho thấy DeepSORT vượt trội hơn hẳn SORT về khả năng theo dõi các vật thể trong thời gian dài, đặc biệt là khi chúng bị che khuất. DeepSORT giảm đáng kể số lần chuyển đổi nhận dạng (ID switch), một lỗi thường gặp trong các hệ thống theo dõi đa vật thể khi một vật thể bị gán nhầm ID của một vật thể khác.
+Bảng 2.2 DeepSORT với phương pháp khác trên bộ dữ liệu MOT16
+Theo nghiên cứu của các tác giả, DeepSORT là một phương pháp theo dõi đa vật thể mạnh mẽ và hiệu quả, kết hợp thông tin nhận dạng từ mạng nơ-ron tích chập với thông tin chuyển động từ bộ lọc Kalman. Phương pháp này đã chứng minh được khả năng vượt trội trong việc xử lý các tình huống như khi vật thể bị che khuất hoặc tạm thời biến mất khỏi khung hình. DeepSORT có tiềm năng ứng dụng rộng rãi trong các hệ thống thực tế, đặc biệt là những hệ thống yêu cầu độ chính xác và độ tin cậy cao.
+	Về object tracking, mô hình deepsort được lựa chọn bởi tính ưu việt của mô hình. Deep SORT (Simple Online and Realtime Tracking with a Deep Association Metric) là một thuật toán tiên tiến để theo dõi đối tượng trong thời gian thực, được phát triển dựa trên thuật toán SORT (Simple Online Realtime Tracking). Deep SORT cải thiện hiệu suất của SORT bằng cách sử dụng đo lường liên kết sâu (deep association metric) kết hợp kỹ thuật học sâu để xử lý tốt hơn các trường hợp che khuất và góc nhìn khác nhau.
+	Deep SORT được Nicolai Wojke và Alex Bewley phát triển ngay SORT nhằm giải quyết các vấn đề thiếu sót liên quan đến số lượng ID switches cao. Hướng giải quyết mà deep SORT đề xuất dựa trên việc sử dụng deep learning để trích xuất các đặc trưng của đối tượng nhằm tăng độ chính xác trong quá trình liên kết dữ liệu. Ngoài ra, một chiến lược liên kết cũng được xây dựng mang tên Matching Cascade giúp việc liên kết các đối tượng sau khi đã biến mất 1 thời gian được hiệu quả hơn.
+Trong Deep SORT, đã giải quyết vấn đề liên kết dữ liệu dựa trên thuật toán Hungary (tương tự như SORT), tuy nhiên, việc liên kết không chỉ dựa trên IOU mà còn quan tâm đến các yếu tố khác: khoảng cách của detection và track (xét tính tương quan trong không gian vector) và khoảng cách cosine giữa 2 vector đặc trưng được trích xuất từ detection và track (chi tiết được trình ở các phần sau) - 2 vector đặc trưng của cùng 1 đối tượng sẽ giống nhau hơn là đặc trưng của 2 đối tượng khác nhau.
+Kiến trúc của DeepSort
+Hình 2.11. Kiến trúc DeepSort
+Deep SORT gồm 4 giai đoạn chính :
+Stage 1: Detection and feature extraction
+Bắt đầu với việc phát hiện đối tượng, sử dụng mạng CNN như YOLO để xác định các đối tượng 
+Sử dụng một mạng neural sâu để trích xuất các đặc trưng từ các bouding boxes chứa các đối tượng. Các đặc trưng này thường được biểu diễn dưới dạng các vector số học.
+Stage 2: Kalman filter in stage prediction
+Tương tự như SORT, Deep SORT sử dụng 1 bộ lọc Kalman để dự đoán trạng thái của các đối tượng trong khung hình hiện tại dựa trên trạng thái cuối cùng được biết đến của chúng, bao gồm vị trí, vân tốc và gia tốc.
+Stage 3: Data association with deep appearance metrics
+Trong Deep SORT, việc liên kết dữ liệu là nơi nó phát triển đáng kể so với phương pháp trước đó. Thay vì chỉ dựa vào IoU (Intersection over Union), Deep SORT sử dụng một kết hợp thông tin về chuyển động và đặc trưng diện mạo.
+Thuật toán Hungarian thực hiện việc phù hợp dựa trên ma trận chi phí, bao gồm cả khoảng cách cosine cho tính tương đồng diện mạo
+Stage 4: Track management
+Deep SORT quản lý vòng đời của các theo dõi bằng cách sử dụng heuristics. 
+Tóm lại, Deep SORT là một hệ thống theo dõi đối tượng trong video thời gian thực sử dụng kết hợp giữa Deep Learning và các phương pháp truyền thống trong theo dõi đối tượng. Bằng cách kết hợp các mạng neural networks để phát hiện đối tượng và trích xuất đặc trưng, Deep SORT có thể xác định và theo dõi các đối tượng một cách chính xác và ổn định. Qua việc sử dụng bộ lọc Kalman, Deep SORT dự đoán vị trí của các đối tượng trong các khung hình tiếp theo, giúp giảm thiểu sự nhiễu và duy trì tính ổn định của quá trình theo dõi. Phân nhóm đối tượng được thực hiện thông qua thuật toán Hungarian, kết hợp với thông tin về đặc trưng và dự đoán của bộ lọc Kalman để xác định các phân nhóm đối tượng một cách chính xác. Mỗi đối tượng được gắn với một ID duy nhất qua các khung hình, giúp theo dõi và định danh chúng qua thời gian. Điều này làm cho quá trình theo dõi trở nên nhất quán và hiệu quả. 
+Tổng quan, Deep SORT là một công cụ mạnh mẽ cho việc theo dõi đối tượng trong các video thời gian thực, kết hợp sức mạnh của Deep Learning và các phương pháp truyền thống để cung cấp một quy trình theo dõi đối tượng chính xác và ổn định. Deepsort cho thấy ưu điểm mạnh mẽ khi có thể xử lý hiệu quả với đầu vào đông người, đây là lý do chính cho việc lựa chọn model này cho bài toán object tracking.
+2.4. Trích xuất đặc trưng hình thể bằng MediaPipe
+MediaPipe là một framework mã nguồn mở do Google phát triển, được thiết kế nhằm xây dựng và triển khai các pipeline xử lý dữ liệu đa phương thức theo thời gian thực, đặc biệt tập trung vào các bài toán thị giác máy tính và học máy trên thiết bị biên (edge devices). MediaPipe cung cấp một tập hợp các mô-đun và công cụ cho phép xử lý dữ liệu đầu vào như ảnh, video, âm thanh hoặc tín hiệu cảm biến, đồng thời hỗ trợ triển khai linh hoạt trên nhiều nền tảng khác nhau như desktop, mobile và web.
+Khác với các thư viện thị giác máy tính truyền thống chỉ cung cấp các hàm xử lý đơn lẻ, MediaPipe được thiết kế theo kiến trúc pipeline đồ thị (graph-based pipeline), trong đó mỗi bước xử lý được biểu diễn dưới dạng một node (calculator) và dữ liệu được truyền giữa các node thông qua các luồng (stream). Cách tiếp cận này giúp MediaPipe đạt được hiệu suất cao, độ trễ thấp và khả năng mở rộng tốt, đặc biệt phù hợp với các ứng dụng yêu cầu xử lý thời gian thực như theo dõi cử chỉ, nhận diện khuôn mặt, ước tính tư thế và phân tích hành vi con người.
+Về mặt kiến trúc, MediaPipe bao gồm ba thành phần chính:
+MediaPipeGraph: Là cấu trúc đồ thị mô tả toàn bộ pipeline xử lý. Mỗi graph bao gồm các node xử lý (calculator) và các luồng dữ liệu vào/ra. Graph cho phép kết hợp linh hoạt nhiều thuật toán xử lý ảnh, tiền xử lý, mô hình học sâu và hậu xử lý trong một pipeline thống nhất.
+Calculator: Là đơn vị xử lý cơ bản trong MediaPipe, có thể thực hiện các tác vụ như đọc dữ liệu đầu vào, tiền xử lý ảnh, suy luận mô hình học sâu (inference) hoặc xử lý kết quả đầu ra. Các calculator được thiết kế độc lập, giúp dễ dàng tái sử dụng và mở rộng.
+Runtime và Platform Abstraction: MediaPipe cung cấp lớp trừu tượng hóa nền tảng, cho phép cùng một pipeline có thể chạy trên CPU, GPU hoặc các phần cứng chuyên dụng khác. Điều này giúp MediaPipe duy trì hiệu năng ổn định trên nhiều thiết bị, từ máy tính cá nhân đến điện thoại thông minh.
+Nhờ kiến trúc này, MediaPipe cho phép xây dựng các hệ thống thị giác máy tính phức tạp với độ trễ thấp và khả năng xử lý liên tục theo luồng video, đáp ứng tốt các yêu cầu của hệ thống thời gian thực.
+Trong đó MediaPipe Pose là một trong những mô-đun quan trọng nhất của MediaPipe, được thiết kế để giải quyết bài toán ước tính tư thế người (human pose estimation) trong ảnh và video. Mục tiêu của MediaPipe Pose là xác định các điểm mốc (landmarks) trên cơ thể người và theo dõi chúng liên tục theo thời gian, từ đó mô tả trạng thái, tư thế và chuyển động của cơ thể.
+MediaPipe Pose sử dụng mô hình học sâu để phát hiện 33 điểm mốc (keypoints) trên cơ thể người, bao gồm đầu, thân, tay, chân và các khớp chính. Mỗi điểm mốc được biểu diễn bởi tọa độ không gian cùng với độ tin cậy (visibility), cho phép mô hình không chỉ mô tả vị trí 2D mà còn ước lượng tương đối chiều sâu của các bộ phận cơ thể.
+Hình 2.12. Minh họa các điểm mốc (landmarks) của MediaPipe Pose
+MediaPipe Pose áp dụng kiến trúc hai giai đoạn (two-stage pipeline) để đảm bảo vừa đạt độ chính xác cao vừa duy trì hiệu năng thời gian thực:
+Pose Detection (Phát hiện người): Ở giai đoạn đầu, hệ thống sử dụng một mô hình phát hiện đối tượng nhẹ để xác định vùng chứa người (Region of Interest – ROI) trong khung hình. Việc giới hạn vùng xử lý giúp giảm đáng kể chi phí tính toán cho giai đoạn tiếp theo.
+Pose Landmark Estimation (Ước tính điểm mốc): Trên vùng ROI đã xác định, mô hình landmark sẽ dự đoán chính xác vị trí 33 keypoints của cơ thể người. Mô hình này được huấn luyện để duy trì độ ổn định theo thời gian, giúp giảm nhiễu và hiện tượng rung lắc (jitter) khi xử lý video liên tục.
+Đối với dữ liệu video, MediaPipe Pose còn tích hợp cơ chế temporal smoothing và theo dõi (tracking), cho phép tái sử dụng thông tin từ các khung hình trước đó nhằm cải thiện độ ổn định và giảm độ trễ so với việc phát hiện lại từ đầu ở mỗi frame.
+Bên cạnh đó MediaPipe Pose có một số ưu điểm nổi bật:
+Hoạt động thời gian thực ngay cả trên CPU, phù hợp cho các hệ thống giám sát và ứng dụng edge.
+Không yêu cầu thiết bị chuyên dụng như camera chiều sâu hoặc cảm biến hồng ngoại.
+Độ ổn định cao theo thời gian, thích hợp cho phân tích chuyển động và hành vi.
+Nhờ các đặc điểm trên, MediaPipe Pose được ứng dụng rộng rãi trong các lĩnh vực như theo dõi chuyển động, phân tích hành vi con người, thể thao thông minh, y tế phục hồi chức năng và các hệ thống cảnh báo an toàn. Trong các hệ thống thị giác máy tính hiện đại, MediaPipe Pose thường được sử dụng kết hợp với các mô hình phát hiện đối tượng như YOLO để xây dựng pipeline phân tích hành vi toàn diện.
+2.5. Các phương pháp nhận diện hành vi và định hướng của đề tài
+Dựa trên các nghiên cứu liên quan đến phân tích hành vi con người trong video, có thể thấy rằng bài toán này đã được tiếp cận theo nhiều hướng khác nhau, bao gồm sử dụng ảnh màu (RGB), ảnh chiều sâu (depth) và dữ liệu khung xương (skeleton-based). Trong đó, việc theo dõi và phân tích chuyển động của con người trong video giám sát đã trở thành một trong những chủ đề nghiên cứu quan trọng trong lĩnh vực thị giác máy tính.
+Từ khoảng năm 2006 đến nay, số lượng các công trình nghiên cứu liên quan đến nhận diện hành vi, đặc biệt là phát hiện hành vi bất thường, đã gia tăng nhanh chóng. Điều này cho thấy mức độ quan tâm ngày càng lớn của cộng đồng nghiên cứu đối với bài toán này.
+Bảng 2.3 Thống kê số lượng nghiên cứu qua các năm
+Trong nhiều nghiên cứu tổng quan, các phương pháp phát hiện hành vi đã có sự phát triển mạnh mẽ từ việc sử dụng các đặc trưng được thiết kế thủ công (handcrafted features) sang các đặc trưng sâu (deep features). Các phương pháp này được ứng dụng rộng rãi trong nhiều lĩnh vực như giám sát an ninh, phân tích đám đông và nhận diện hành vi con người.
+Cách tiếp cận cũng thay đổi tùy theo loại dữ liệu đầu vào. Đối với ảnh màu RGB, ảnh chiều sâu và dữ liệu khung xương, mỗi loại đều có những ưu điểm và hạn chế riêng. Trong những năm gần đây, với sự phát triển của các cảm biến như Microsoft Kinect, các phương pháp sử dụng dữ liệu chiều sâu và khung xương đã đạt được nhiều kết quả tích cực. Tuy nhiên, trong các môi trường thực tế như lớp học hoặc không gian công cộng, nơi có nhiều đối tượng và điều kiện ánh sáng thay đổi, dữ liệu RGB vẫn là lựa chọn phổ biến do tính linh hoạt và dễ triển khai. Bên cạnh đó, thay vì sử dụng trực tiếp toàn bộ dữ liệu ảnh, đề tài lựa chọn khai thác dữ liệu khung xương (skeleton) được trích xuất thông qua MediaPipe nhằm biểu diễn tư thế và chuyển động của học sinh một cách hiệu quả và gọn nhẹ. Việc sử dụng dữ liệu khung xương giúp giảm đáng kể độ phức tạp của dữ liệu đầu vào, đồng thời tập trung vào các đặc trưng quan trọng liên quan đến chuyển động và tư thế, từ đó hỗ trợ tốt hơn cho quá trình nhận diện hành vi.
+2.5.1. Các hướng tiếp cận trong nhận diện hành vi
+Với sự phát triển của các phương pháp học sâu (Deep Learning), các đặc trưng sâu đã cho thấy hiệu quả vượt trội so với các đặc trưng thủ công. Một số hướng tiếp cận tiêu biểu có thể kể đến như sau: 
+2.5.1.1. Mô hình đều đặn theo thời gian (Temporal Regularity Model)
+Mô hình này tập trung vào việc đánh giá các đặc trưng của mạng nơ ron tích chập (CNN) theo thời gian để nắm bắt các sự kiện bất thường từ video. Trong mô hình này sẽ sử dụng mô hình CNN được đào tạo trước về nhận dạng đối tượng để phát hiện sự bất thường và sử dụng phương pháp tiếp cận hai kênh để biểu diễn video về hình thức và chuyển động bằng luồng quang. Mô hình đưa ra mạng TCP (Temporal CNN pattern) trong đó lớp lượng tử hóa nhị phân (Binary Quantization) được đặt làm lớp cuối cùng của CNN để biểu diễn các mẫu chuyển động tạm thời cho phân đoạn bất thường. Tuy nhiên, mạng TCP không thể huấn luyện đầu cuối (end-to-end) và phải trải qua quá trình xử lý hậu kỳ (post-processing) nặng nề và yêu cầu ma trận đặc trưng tích chập đã được tính toán trước đó.
+Một số phương pháp phát hiện bất thường dựa trên phương pháp mã hóa thưa thớt (sparse coding) liên quan đến việc xây dựng một từ điển đối với các sự kiện bình thường (normal event) liên quan đến lỗi xây dựng lại nhỏ, trong khi các sự kiện bất thường sẽ dẫn đến lỗi xây dựng lại lớn. Việc tối ưu hóa các hệ số thưa thớt là tiêu tốn thời gian và dẫn đến tắc nghẽn cho việc học từ điển. Ngoài ra, các khung lân cận (liên quan về mặt thời gian) được gán các hệ số thưa thớt khác nhau, dẫn đến mất tính liên kết theo thời gian giữa các khung đó.
+Để giữ lại thông tin cục bộ giữa các khung lân cận, phương pháp dựa trên mã hóa thưa thớt nhất quán theo nhịp độ (Temporally Coherent Sparse Coding - TSC) đã được đưa ra trong đó các khung lân cận tương tự được mã hóa với cùng hệ số thưa thớt. TSC này được ánh xạ tới biểu diễn tương đương của nó bằng cách sử dụng nhiều mạng RNN xếp chồng lên nhau. Việc tối ưu hóa các tham số của mạng RNN xếp chồng đã làm giảm bớt nhu cầu chọn các siêu tham số (hyperparameters) trong TSC và tăng tốc dự đoán bất thường do có thể sử dụng kiến trúc mạng nông hơn.
+2.5.1.2. Mô hình không gian-thời gian (Spatio-Temporal Model)
+Mô hình phát hiện bất thường theo không gian-thời gian được lấy cảm hứng từ thông tin quan trọng (saliency information) thu được từ video. Mô hình này đại diện cho thông tin không gian (SI) thu được từ các vùng nổi bật của khung. Chuyển động tạm thời được biểu thị bằng luồng quang biểu đồ đa tỷ lệ (multiscale histogram optical flow – MHOF). Mạng học sâu - PCANet được sử dụng để lấy các đặc trưng từ SI và MHOF để phát hiện bất thường.
+Một khi các sự kiện bất thường được phát hiện, thì cũng cần giải thích lý do tại sao sự kiện được đánh giá là bất thường. Phát hiện chung và kể lại các sự kiện bất thường bằng cách kết hợp mô hình phát hiện bất thường Fast-RCNN (MT-FRCN) và mô hình phát hiện sự kiện riêng cho từng môi trường. Hiện tại, kiến thức ngữ nghĩa được sử dụng để giải thích sự bất thường bị hạn chế trong các hành động. Kiến thức sâu sắc này về các khái niệm trực quan có thể được mở rộng để giải thích các tương tác đối tượng phức tạp hơn xảy ra trong các sự kiện bất thường. Chính vì vậy ta hợp nhất SVM một lớp (OC-SVM) với CNN để thiết kế mô hình có thể huấn luyện đầu cuối để phát hiện bất thường. Để mô hình hóa vận tốc và hướng của các thực thể trong video, các đặc trưng luồng quang được cung cấp làm đầu vào cho CNN. Mô hình Deep One Class (DOC) được trang bị Radial Basis Function (RBF) mang lại khả năng phát hiện bất thường rất tốt.
+Hình 2.13 Quy trình tạo SCB-ST-Dataset4
+2.5.1.3. Mô hình học đại diện (Representation Learning Model)
+Nghiên cứu sử dụng mang Deep incremental slow feature analysis network (D-IncSFA) để tìm hiểu tính trừu tượng cấp cao từ video và phát hiện các điểm bất thường trong một bước. Phát hiện bất thường toàn cầu được thực hiện bằng cách sử dụng mô hình thời gian và phát hiện bất thường cục bộ bằng cách sử dụng phân tích đa tỷ lệ dựa trên giá trị đạo hàm tổng bình phương (summed squared derivative - SSD). Cách tiếp cận này không dựa trên bất kỳ mô hình phân loại nào và không sử dụng đặc trưng được thiết kế thủ công.
+Mặc dù các mô hình học sâu rất tốt trong việc trích xuất mức độ trừu tượng cao từ video đã cho, rất khó để xây dựng mô hình các tác vụ mang tính hồi quy như phát hiện tắc nghẽn (congestion detection) và đếm đám đông (crowd counting) vì các nhãn không có đủ khả năng để tinh chỉnh các thông số học. Vấn đề này đã được giải quyết bằng học số liệu sâu (deep metric learning - DML) dựa trên hồi quy áp dụng cho các phương pháp tiếp cận dựa trên mật độ (density based approaches). DML không chỉ trích xuất các tính năng dựa trên mật độ mà còn học cách đo khoảng cách tốt hơn. Hiện tại, phương pháp này được chứng minh là có thể áp dụng trong việc phát hiện tắc nghẽn và đếm đám đông.
+2.5.2. Nhận xét và định hướng
+Từ các hướng tiếp cận đã trình bày, có thể thấy rằng việc khai thác thông tin theo thời gian đóng vai trò then chốt trong bài toán nhận diện hành vi. Trong thực tế, hành vi của con người không chỉ được xác định bởi trạng thái tại một thời điểm riêng lẻ, mà còn phụ thuộc vào sự thay đổi liên tục của tư thế và chuyển động theo thời gian. Do đó, các mô hình hiện đại không chỉ dừng lại ở việc trích xuất đặc trưng không gian từ từng khung hình mà còn cần khả năng mô hình hóa các mối quan hệ theo chuỗi để đạt được độ chính xác cao.
+Trong phạm vi đề tài này, mục tiêu đặt ra không phải là phát hiện hành vi bất thường mà là phân loại các hành vi cụ thể của học sinh trong môi trường lớp học, bao gồm các hành vi tiêu biểu như: viết bài, đọc tài liệu, giơ tay và ngủ. Đây là các hành vi mang tính chất có chủ đích và thường được biểu hiện thông qua chuỗi chuyển động liên tục, do đó đòi hỏi phương pháp tiếp cận phải có khả năng nắm bắt được đặc trưng động thay vì chỉ dựa trên thông tin tĩnh.
+Bên cạnh đó, xét đến điều kiện triển khai trong môi trường thực tế, hệ thống cần đảm bảo tính linh hoạt, không phụ thuộc vào các thiết bị phần cứng chuyên dụng như cảm biến chiều sâu. Vì vậy, đề tài lựa chọn sử dụng dữ liệu video RGB làm nguồn đầu vào chính. Tuy nhiên, thay vì xử lý trực tiếp toàn bộ dữ liệu ảnh với độ phức tạp cao, phương pháp được đề xuất tập trung vào việc khai thác dữ liệu khung xương (skeleton) được trích xuất từ video thông qua MediaPipe. Biểu diễn khung xương cho phép mô tả cấu trúc cơ thể và chuyển động của học sinh một cách cô đọng, loại bỏ các thông tin dư thừa từ nền ảnh, đồng thời giúp giảm đáng kể chi phí tính toán.
+Trên cơ sở đó, các đặc trưng khung xương được tổ chức thành chuỗi dữ liệu theo thời gian, phản ánh quá trình biến đổi của tư thế và hành vi. Việc sử dụng chuỗi đặc trưng này cho phép mô hình học được các mẫu chuyển động đặc trưng tương ứng với từng loại hành vi, từ đó nâng cao khả năng phân biệt giữa các hành vi có biểu hiện tương đối giống nhau tại một thời điểm nhưng khác nhau về diễn biến theo thời gian.
+Từ những phân tích trên, đề tài lựa chọn hướng tiếp cận kết hợp giữa biểu diễn đặc trưng hình thể và mô hình hóa chuỗi thời gian nhằm khai thác đồng thời thông tin không gian và thời gian trong dữ liệu video. Cách tiếp cận này không chỉ phù hợp với đặc thù của bài toán mà còn đảm bảo tính khả thi trong quá trình triển khai thực tế.
+2.6. Mô hình LSTM trong bài toán nhận diện hành vi học sinh
+Trong hệ thống đề xuất, LSTM được sử dụng như một thành phần cốt lõi nhằm mô hình hóa thông tin theo thời gian, đóng vai trò ở giai đoạn cuối của pipeline xử lý dữ liệu video. Sau khi các khung hình đầu vào được xử lý qua các bước phát hiện và theo dõi đối tượng, dữ liệu thu được không còn là ảnh thô mà được tổ chức thành các chuỗi đặc trưng theo từng học sinh. Trên cơ sở đó, LSTM được áp dụng để khai thác các đặc trưng động và thực hiện phân loại hành vi.
+Cụ thể, hệ thống hoạt động theo luồng xử lý: video đầu vào được đưa qua mô hình phát hiện đối tượng để xác định vị trí học sinh trong từng khung hình, sau đó thuật toán theo dõi được sử dụng để duy trì danh tính của từng học sinh xuyên suốt các frame. Nhờ đó, với mỗi đối tượng, hệ thống có thể xây dựng một chuỗi dữ liệu liên tục theo thời gian.
+Dữ liệu đầu vào của LSTM là các chuỗi đặc trưng được trích xuất từ từng khung hình. Với mỗi thời điểm, đặc trưng của học sinh được biểu diễn dưới dạng vector (ví dụ: tọa độ bounding box, tâm đối tượng hoặc các điểm đặc trưng cơ thể). Các vector này được sắp xếp theo thứ tự thời gian để tạo thành một chuỗi có dạng:
+X=(x1,x2,...,xT)X = (x_1, x_2, ..., x_T)X=(x1​,x2​,...,xT​) 
+Trong đó, mỗi xtx_txt​ là vector đặc trưng tại thời điểm ttt, và TTT là độ dài chuỗi. Khi sử dụng biểu diễn khung xương, mỗi khung hình có thể được mô tả bởi NNN điểm khớp, mỗi điểm gồm tọa độ (x,y)(x, y)(x,y), do đó vector đặc trưng có kích thước 2N2N2N, và toàn bộ chuỗi đầu vào có dạng ma trận T×2NT \times 2NT×2N.
+Thay vì xử lý từng khung hình độc lập, LSTM tiếp nhận toàn bộ chuỗi dữ liệu này để học các mối quan hệ phụ thuộc theo thời gian. Thông qua việc cập nhật trạng thái ẩn qua từng bước, mô hình có khả năng nắm bắt sự thay đổi của tư thế và chuyển động của học sinh trong một khoảng thời gian dài. Điều này đặc biệt quan trọng trong việc phân biệt các hành vi có biểu hiện tương tự tại một thời điểm nhưng khác nhau về diễn biến, chẳng hạn như hành vi đọc tài liệu và viết bài, hoặc trạng thái cúi đầu do ngủ và do tập trung học.
+Để biểu diễn toàn bộ chuỗi, hệ thống sử dụng trạng thái ẩn tại bước thời gian cuối cùng của LSTM làm đặc trưng tổng hợp cho hành vi. Vector này sau đó được đưa vào lớp phân loại để dự đoán nhãn hành vi tương ứng. Các lớp hành vi trong bài toán bao gồm:
+Viết bài (Writing) 
+Đọc tài liệu (Reading) 
+Giơ tay (Hand Raising) 
+Ngủ (Sleeping) 
+Để đảm bảo hệ thống có thể hoạt động ổn định trong môi trường thực tế, một số chiến lược xử lý chuỗi được áp dụng:
+Sử dụng cửa sổ trượt (sliding window) với độ dài cố định (ví dụ: 16 hoặc 32 frame) để tạo các đoạn chuỗi liên tiếp, giúp hệ thống có thể dự đoán hành vi theo thời gian thực 
+Chuẩn hóa độ dài chuỗi bằng cách cắt hoặc bổ sung (padding) để phù hợp với đầu vào của mô hình 
+Xử lý trường hợp mất theo dõi đối tượng bằng cách khởi tạo lại chuỗi hoặc loại bỏ các đoạn dữ liệu không liên tục 
+Trong toàn bộ hệ thống, LSTM đóng vai trò là mô hình học đặc trưng theo thời gian, bổ sung cho các thành phần xử lý không gian như phát hiện và theo dõi đối tượng. Sự kết hợp giữa các đặc trưng không gian và đặc trưng thời gian giúp hệ thống không chỉ xác định được vị trí của học sinh mà còn hiểu được hành vi của họ dựa trên diễn biến chuyển động.
+Việc áp dụng LSTM trong bài toán mang lại nhiều lợi ích, bao gồm:
+Khả năng mô hình hóa chuỗi thời gian và học các phụ thuộc dài hạn 
+Cải thiện độ chính xác trong phân loại các hành vi có tính chất động 
+Tăng tính ổn định của hệ thống khi làm việc với dữ liệu video thực tế 
+Nhờ đó, LSTM trở thành thành phần quan trọng giúp hệ thống nâng cao hiệu quả nhận diện hành vi học sinh trong môi trường lớp học.
+Trong thực tế, việc quan sát thủ công bởi giáo viên gặp nhiều hạn chế như không thể theo dõi đồng thời toàn bộ học sinh, dễ bị chủ quan và khó đưa ra phản hồi theo thời gian thực. Do đó, việc xây dựng một hệ thống tự động dựa trên học sâu để nhận diện hành vi học sinh là một hướng tiếp cận cần thiết và có tính ứng dụng cao.
+Trong đề tài này, bài toán nhận diện hành vi được xây dựng theo hướng phân tích dữ liệu chuỗi thời gian, trong đó hành vi của học sinh không được xác định từ một khung hình đơn lẻ mà dựa trên sự thay đổi liên tục của trạng thái theo thời gian.
+Hình 2.14 Ảnh minh họa mô hình phát hiện hành vi
+2.7. Xây dựng hệ thống phát hiện và phân tích hành vi trong lớp học của học sinh
+Để giải quyết bài toán, hệ thống phân tích hành vi đa phương thức đã được lựa chọn. Hệ thống này có khả năng xử lý video đầu vào và cung cấp thông tin chi tiết về hành vi của con người trong video đó.
+Hệ thống sử dụng ba mô hình học sâu chính: YOLOv8, DeepSORT và SlowFast tương ứng: 
+2.7.1 Mô hình nhận diện đối tượng YOLOv8
+Mô hình YOLOv8 được sử dụng trong đồ án này để phát hiện các đối tượng người trong khung hình. Kiến trúc của YOLOv8 được trình bày trong hình 2.8, bao gồm các thành phần chính sau:
+Backbone: Trích xuất đặc trưng từ ảnh đầu vào. Trong YOLOv8, backbone sử dụng kiến trúc CSPDarknet53, một biến thể của Darknet53 với các cải tiến về hiệu suất và độ chính xác.
+Neck: Kết hợp các đặc trưng từ các tầng khác nhau của backbone để chuẩn bị cho việc phát hiện đối tượng. YOLOv8 sử dụng kiến trúc PANet (Path Aggregation Network) làm neck, giúp tăng cường khả năng phát hiện đối tượng ở các kích thước khác nhau.
+Head: Dự đoán các hộp giới hạn (bounding boxes) và lớp (class) của các đối tượng. YOLOv8 sử dụng một head duy nhất cho cả việc phát hiện đối tượng và phân loại đối tượng.
+Các thuật toán trong YOLOv8:
+Anchor-based: YOLOv8 sử dụng anchor boxes để dự đoán vị trí và kích thước của các đối tượng. Anchor boxes là các hộp có kích thước và tỷ lệ cố định, được đặt trước trên lưới đặc trưng (feature map) của mô hình. Mô hình sẽ dự đoán các offset (độ lệch) của các hộp giới hạn so với các anchor boxes này.
+Non-Maximum Suppression (NMS): NMS được sử dụng để loại bỏ các hộp giới hạn trùng lặp. Thuật toán này sẽ chọn ra hộp giới hạn có độ tin cậy cao nhất và loại bỏ các hộp giới hạn khác có độ chồng lấp (Intersection over Union - IoU) lớn hơn một ngưỡng nào đó với hộp giới hạn được chọn.
+Loss function: YOLOv8 sử dụng một hàm mất mát (loss function) để đánh giá độ tốt của mô hình. Hàm mất mát này bao gồm ba thành phần:
+Classification loss: Đánh giá độ chính xác của việc dự đoán lớp đối tượng.
+Localization loss: Đánh giá độ chính xác của việc dự đoán vị trí và kích thước của hộp giới hạn.
+Confidence loss: Đánh giá độ tin cậy của việc phát hiện đối tượng.
+Công thức tính loss function trong YOLOv8:
+ (2)
+Trong đó: λcoord, λnoobj, λobj, λclass là các hệ số trọng số để cân bằng giữa các thành phần mất mát.
+Cải tiến trong YOLOv8:
+Backbone: YOLOv8 sử dụng kiến trúc CSPDarknet53 làm backbone, giúp cải thiện hiệu suất và độ chính xác so với các phiên bản trước đó.
+Neck: YOLOv8 sử dụng kiến trúc PANet làm neck, giúp tăng cường khả năng phát hiện đối tượng ở các kích thước khác nhau.
+Head: YOLOv8 sử dụng một head duy nhất cho cả việc phát hiện đối tượng và phân loại đối tượng, giúp đơn giản hóa kiến trúc và giảm thiểu chi phí tính toán.
+Loss function: YOLOv8 sử dụng một hàm mất mát mới, kết hợp giữa CIoU loss và focal loss, giúp cải thiện độ chính xác của việc dự đoán hộp giới hạn và xử lý vấn đề mất cân bằng giữa các lớp đối tượng.
+Data augmentation: YOLOv8 sử dụng các kỹ thuật tăng cường dữ liệu (data augmentation) như Mosaic và MixUp để tăng cường tính đa dạng của dữ liệu huấn luyện, giúp mô hình học tốt hơn và giảm thiểu overfitting.
+2.7.2 Mô hình theo dõi đối tượng DeepSORT
+DeepSORT là một cải tiến đáng kể so với SORT, đặc biệt ở khả năng xử lý các tình huống khó như vật thể bị che khuất hoặc biến mất khỏi khung hình trong một khoảng thời gian. Điểm mấu chốt của DeepSORT nằm ở việc kết hợp thông tin chuyển động (motion) và thông tin về hình dáng (appearance) của đối tượng như mô tả trong Hình 2.11.
+Bộ lọc Kalman (Kalman Filter)
+DeepSORT vẫn sử dụng bộ lọc Kalman để dự đoán vị trí của đối tượng trong khung hình tiếp theo dựa trên các quan sát trước đó. Bộ lọc Kalman là một công cụ mạnh mẽ để ước lượng trạng thái của một hệ thống động lực học dựa trên các quan sát nhiễu. Trong trường hợp này, trạng thái của đối tượng bao gồm vị trí, vận tốc và kích thước của hộp giới hạn (bounding box).
+Mạng nơ-ron tích chập (Convolutional Neural Network - CNN)
+DeepSORT sử dụng mạng CNN để trích xuất các đặc trưng hình dạng của các đối tượng. Mạng CNN này được huấn luyện trên một tập dữ liệu lớn các hình ảnh để học cách phân biệt các đối tượng khác nhau dựa trên đặc trưng hình dạng của chúng. Đầu ra của mạng CNN là một vector đặc trưng đại diện cho hình dáng của đối tượng.
+Ma trận chi phí (Cost Matrix)
+Để liên kết các đối tượng được phát hiện trong khung hình hiện tại với các track hiện có, DeepSORT sử dụng một ma trận chi phí. Ma trận chi phí này kết hợp thông tin chuyển động từ bộ lọc Kalman và thông tin hình dạng từ mạng CNN.
+Thông tin chuyển động: Khoảng cách Mahalanobis giữa trạng thái dự đoán của track và trạng thái của đối tượng được phát hiện. Khoảng cách Mahalanobis là một phép đo khoảng cách giữa một điểm và một phân phối xác suất.
+Thông tin hình dạng: Khoảng cách cosine giữa vector đặc trưng của track và vector đặc trưng của đối tượng được phát hiện. Khoảng cách cosine là một phép đo độ tương tự giữa hai vector.
+Thuật toán Hungarian (Hungarian Algorithm)
+DeepSORT sử dụng thuật toán Hungarian để tìm cách liên kết tối ưu giữa các đối tượng được phát hiện và các track hiện có dựa trên ma trận chi phí. Thuật toán Hungarian là một thuật toán tối ưu hóa tổ hợp để giải quyết bài toán gán ghép.
+Quản lý track (Track Management)
+DeepSORT có các cơ chế để khởi tạo track mới cho các đối tượng mới được phát hiện, cũng như hủy bỏ các track không còn hoạt động.
+Matching Cascade
+Matching Cascade là một chiến lược liên kết được sử dụng trong DeepSORT để cải thiện khả năng liên kết các đối tượng sau khi chúng đã biến mất khỏi khung hình trong một khoảng thời gian. Chiến lược này hoạt động bằng cách chia quá trình liên kết thành nhiều giai đoạn. Trong mỗi giai đoạn, chỉ các đối tượng có độ tin cậy cao mới được xem xét để liên kết. Nếu không tìm thấy đối tượng phù hợp trong giai đoạn hiện tại, quá trình sẽ chuyển sang giai đoạn tiếp theo, nơi các đối tượng có độ tin cậy thấp hơn sẽ được xem xét.
+2.7.3 Mô hình phát hiện hành vi SlowFast
+SlowFast là một kiến trúc mạng nơ-ron được thiết kế để phân tích video, tận dụng cả thông tin không gian (spatial) từ các khung hình riêng lẻ và thông tin thời gian (temporal) từ sự thay đổi giữa các khung hình. Điểm đặc biệt của SlowFast là nó sử dụng hai đường dẫn (pathway) khác nhau để xử lý thông tin:
+Đường dẫn chậm (Slow pathway): Xử lý thông tin không gian ở tốc độ khung hình thấp. Đường dẫn này sử dụng các lớp tích chập 3D với số lượng kênh lớn và tốc độ khung hình thấp (ví dụ: 1 khung hình mỗi giây) để trích xuất các đặc trưng ngữ nghĩa (semantic features) chi tiết từ các khung hình.
+Đường dẫn nhanh (Fast pathway): Xử lý thông tin thời gian ở tốc độ khung hình cao. Đường dẫn này sử dụng các lớp tích chập 3D với số lượng kênh nhỏ hơn và tốc độ khung hình cao (ví dụ: 8 khung hình mỗi giây) để nắm bắt các chuyển động nhanh và các đặc trưng tạm thời (temporal features) trong video.
+Cơ chế hoạt động của SlowFast:
+Chia video thành hai luồng: Video đầu vào được chia thành hai luồng, một luồng cho đường dẫn chậm và một luồng cho đường dẫn nhanh.
+Xử lý riêng biệt: Mỗi đường dẫn xử lý luồng dữ liệu tương ứng bằng các lớp tích chập 3D. Đường dẫn chậm tập trung vào thông tin không gian chi tiết, trong khi đường dẫn nhanh tập trung vào thông tin thời gian.
+Kết hợp thông tin: Thông tin từ hai đường dẫn được kết hợp lại thông qua một cơ chế hợp nhất (fusion). Cơ chế này có thể là cộng hoặc nối các đặc trưng từ hai đường dẫn.
+Phân loại hoặc dự đoán: Đặc trưng được hợp nhất sau đó được sử dụng để thực hiện các tác vụ phân loại hành động hoặc dự đoán các sự kiện trong video.
+Các thuật toán và kỹ thuật chính:
+Tích chập 3D (3D Convolution): SlowFast sử dụng các lớp tích chập 3D để trích xuất đặc trưng không gian và thời gian từ video. Tích chập 3D cho phép mạng lưới xem xét cả thông tin không gian trong mỗi khung hình và thông tin thời gian giữa các khung hình liên tiếp.
+Mạng residual (Residual Networks - ResNet): SlowFast sử dụng kiến trúc ResNet cho cả hai đường dẫn chậm và nhanh. ResNet giúp giải quyết vấn đề gradient vanishing (gradient biến mất) trong các mạng sâu, cho phép huấn luyện các mô hình sâu hơn và đạt hiệu suất tốt hơn.
+Lateral connections: Các kết nối bên (lateral connections) được sử dụng để truyền thông tin từ đường dẫn nhanh sang đường dẫn chậm. Điều này giúp đường dẫn chậm có thể tận dụng thông tin thời gian từ đường dẫn nhanh để cải thiện khả năng nhận diện hành động.
+Non-local networks: SlowFast có thể sử dụng các mạng non-local để nắm bắt các phụ thuộc tầm xa trong video. Các mạng non-local cho phép mô hình tập trung vào các vùng quan trọng trong video và bỏ qua các vùng không quan trọng.
+Ưu điểm của SlowFast:
+Hiệu suất cao: SlowFast đã đạt được hiệu suất tốt trên các bộ dữ liệu hành động video lớn như Kinetics và AVA.
+Khả năng thích ứng: SlowFast có thể được điều chỉnh để phù hợp với nhiều tác vụ khác nhau, bao gồm phân loại hành động, phát hiện hành động và phân đoạn hành động.
+Tính hiệu quả: Mặc dù SlowFast là một mạng lưới sâu, nhưng nó được thiết kế để hoạt động hiệu quả, cho phép triển khai trên các thiết bị có tài nguyên hạn chế.
+2.7.4 Sơ đồ hệ thống
+Hệ thống phân tích hành vi đa phương thức được xây dựng trong nghiên cứu này nhận đầu vào là video và tạo ra dữ liệu hành vi chi tiết của con người. Dưới đây là quy trình từng bước của hệ thống:
+Hình 2.18. Cấu trúc hệ thống
+Tiền xử lý video: Video đầu vào được chia thành các khung hình với tốc độ 30 khung hình/giây cho các phân tích hành vi tương ứng.
+Phát hiện hành vi liên tục:
+YOLOv8: Mỗi khung hình (mỗi 32 khung hình) được xử lý bằng YOLOv8 với trọng số được huấn luyện trên tập dữ liệu CrowdHuman để phát hiện tất cả các cá thể người.
+Deep SORT: Kết quả phát hiện từ YOLOv8 được đưa vào Deep SORT để theo dõi và gán ID duy nhất cho từng cá thể trong suốt video.
+SlowFast: Mạng SlowFast phân tích các khung hình video để phát hiện các hành vi liên tục...
+Hợp nhất kết quả:
+Dữ liệu từ tất cả các mô hình (Deep SORT, YOLOv8 và SlowFast) được hợp nhất thành một bảng dữ liệu.
+Mỗi hàng trong bảng đại diện cho một con người và chứa thông tin đa phương thức về hành vi và ID của họ tại các mốc thời gian khác nhau.
+Đầu ra: Đầu ra cuối cùng của hệ thống là một bảng dữ liệu có cấu trúc chứa thông tin chi tiết về hành vi của con người trong suốt video. Bảng này có thể được sử dụng để phân tích, đánh giá và hiểu rõ hơn về hành vi của con người, từ đó đưa ra các quyết định điều chỉnh sáng suốt hơn.
+CHƯƠNG 3: THỰC NGHIỆM VÀ ĐÁNH GIÁ HỆ THỐNG PHÁT HIỆN VÀ PHÂN TÍCH HÀNH VI TRONG LỚP HỌC CỦA HỌC SINH
+3.1. Cài đặt chương trình huấn luyện mô hình
+3.1.1. Tập dữ liệu
+Phát hiện con người với YOLOv8
+	Bộ dữ liệu huấn luyện được sử dụng là crowed human dataset Số lượng ảnh: Bộ dữ liệu bao gồm khoảng 15,000 hình ảnh. 	
+Số lượng đối tượng: Trên 339,565 người được đánh dấu trong toàn bộ tập dữ liệu. Nguồn gốc: Các hình ảnh được thu thập từ nhiều nguồn khác nhau để đảm bảo tính đa dạng và thực tế của dữ liệu.được lấy ngẫu nhiên với 70% - 20% -10% dữ liệu để huấn luyện, xác thực và kiểm tra.
+Hình 3.1. Ảnh minh họa về bộ dữ liệu Crowded Human
+Ngoài bộ dữ liệu Crowded Human dataset, một bộ dữ liệu riêng với hơn 1.400 bức ảnh được tập trung đánh nhãn con người đã được kết hợp, nâng tổng số bức ảnh lên khoảng 17.000.
+Hình 3.2. Kết quả dự đoán của mô hình trên tập huấn luyện
+Hình 3.3. Kết quả dự đoán của mô hình trên tập huấn luyện
+	Như vậy, mô hình phát hiện con người hoạt động khá tốt trên điều kiện của bài toán. Mặc dù tất nhiên vẫn còn một số bất tiện do vị trí góc quay của máy quay khiến cho người đôi khi không bắt được. Nhưng điều này hoàn toàn có thể giải quyết sử dụng các góc máy khác nhau cũng như một số loại camera chuyên dụng khác nhau.
+Object Tracking với DeepSort	
+	Đề tài sử dụng model DeepSort pretrained để áp dụng cho phần Object Tracking với bộ dữ liệu mở Market-1501. Market-1501 là một trong những bộ dữ liệu phổ biến nhất trong nghiên cứu về phát hiện và theo dõi đối tượng người (re-identification). Bộ dữ liệu này được thu thập tại một khuôn viên đại học, bao gồm các hình ảnh của người đi bộ được chụp từ 6 camera khác nhau, với nhiều góc nhìn và điều kiện ánh sáng.
+Hình 3.4. Kết quả chạy của mô hình deepsort object tracking người 
+	Kết quả cho thấy DeepSORT kết hợp với YOLOv8 huấn luyện trên bộ dữ liệu Market-1501 có khả năng nhận dạng và theo dõi đối tượng người hiệu quả. Mô hình đạt được kết quả tốt trên các chỉ số MOTA và IDF1, cho thấy khả năng theo dõi chính xác và duy trì ID của các đối tượng.
+Phát hiện hành vi với SlowFast
+	Bộ dữ liệu được sử dụng là bộ dữ liệu cá nhân được tự thu thập với 215477 ảnh được gắn nhãn các hành vi ngủ, đứng, ngồi, dùng điện thoại, nói chuyện, nhìn vào màn hình. Với tỉ lệ 80 % bộ dữ liệu để huấn luyện và 20% bộ dữ liệu để đánh giá.
+	Mô hình được huấn luyện với Sigmoid optimizer với tốc độ học khởi đầu là 1e-3 và động lượng là 0.9, 100 epochs trên Nvidia Tesla T4 16GB cung cấp bởi Google Colaboratory. Dữ liệu đầu vào được load với batch size 4 và huấn luyện trong 18 tiếng. Trong video dữ liệu, xét đoạn video 5 giây một tương ứng 150 khung hình. Lấy từ khung hình 61 có nhãn ta có 2 trường hợp. Đầu tiên nếu lấy theo dõi được vị trí thì lấy 60 khung hình trước và 90 khung hình sau, trường hợp thứ hai nếu không theo dõi được vị trí thì sao chép ra 60 khung hình phía trước và 90 khung hình phía sau.
+Do hiện nay không có bất cứ tập dữ liệu mở có sẵn nào liên quan đến bài toán phát hiện hành vi trong lớp học của học sinh nên việc xây dựng một bộ dữ liệu mới là cần thiết để phục vụ cho việc huấn luyện mô hình và đánh giá kết quả của hệ thống.
+Hình 3.5. Ảnh minh họa dữ liệu thực nghiệm
+Các bạn tham gia thực hiện các hành vi thông thường bao gồm: ngồi, ngủ, đứng, nói chuyện, dùng điện thoại và nhìn vào màn hình. Sử dụng 1 chiếc camera có sẵn trong phòng được đặt ở độ cao 2 mét, cố định để mô phỏng vị trí đặt của 1 camera giám sát phù hợp, sử dụng thiết đặt tự động của camera ở độ phân giải 1080p và tốc độ 30 khung hình/giây. Quá trình thu thập diễn ra trong khoảng 7 tiếng trong một lần ghi hình. Từ đó thu được một bộ dữ liệu thô dưới dạng video dài 7 tiếng, tương đương với hơn 215.477 khung hình có thể được sử dụng. Sau đó, tiến hành gán nhãn toàn bộ các khung hình trong video theo từng bài toán cần xử lý.	
+3.1.2. Cài đặt chương trình huấn luyện
+	Để cấu hình mạng SlowFast trong báo cáo quyết định sử dụng mạng như sau: 
+self.model = create_slowfast(
+            # SlowFast configs.
+            slowfast_channel_reduction_ratio=cfg.SLOWFAST.BETA_INV,
+            slowfast_conv_channel_fusion_ratio=cfg.SLOWFAST.FUSION_CONV_CHANNEL_RATIO,
+            slowfast_fusion_conv_kernel_size=(
+                cfg.SLOWFAST.FUSION_KERNEL_SZ,
+                1,
+                1,
+            ),
+            slowfast_fusion_conv_stride=(cfg.SLOWFAST.ALPHA, 1, 1),
+            # Input clip configs.
+            input_channels=cfg.DATA.INPUT_CHANNEL_NUM,
+            # Model configs.
+            model_depth=cfg.RESNET.DEPTH,
+            model_num_class=cfg.MODEL.NUM_CLASSES,
+            dropout_rate=cfg.MODEL.DROPOUT_RATE,
+            # Normalization configs.
+            norm=norm_module,
+            # Activation configs.
+            activation=partial(nn.ReLU, inplace=cfg.RESNET.INPLACE_RELU),
+            # Stem configs.
+            stem_dim_outs=(
+                width_per_group,
+                width_per_group // cfg.SLOWFAST.BETA_INV,
+            ),
+            stem_conv_kernel_sizes=(
+                (temp_kernel[0][0][0], 7, 7),
+                (temp_kernel[0][1][0], 7, 7),
+            ),
+            stem_conv_strides=((1, 2, 2), (1, 2, 2)),
+            stem_pool=nn.MaxPool3d,
+            stem_pool_kernel_sizes=((1, 3, 3), (1, 3, 3)),
+            stem_pool_strides=((1, 2, 2), (1, 2, 2)),
+            # Stage configs.
+            stage_conv_a_kernel_sizes=stage_conv_a_kernel_sizes,
+            stage_conv_b_kernel_sizes=(
+                ((1, 3, 3), (1, 3, 3), (1, 3, 3), (1, 3, 3)),
+                ((1, 3, 3), (1, 3, 3), (1, 3, 3), (1, 3, 3)),
+            ),
+            stage_conv_b_num_groups=(
+                (num_groups, num_groups, num_groups, num_groups),
+                (num_groups, num_groups, num_groups, num_groups),
+            ),
+            stage_conv_b_dilations=(
+                (
+                    (1, spatial_dilations[0][0], spatial_dilations[0][0]),
+                    (1, spatial_dilations[1][0], spatial_dilations[1][0]),
+                    (1, spatial_dilations[2][0], spatial_dilations[2][0]),
+                    (1, spatial_dilations[3][0], spatial_dilations[3][0]),
+                ),
+                (
+                    (1, spatial_dilations[0][1], spatial_dilations[0][1]),
+                    (1, spatial_dilations[1][1], spatial_dilations[1][1]),
+                    (1, spatial_dilations[1][1], spatial_dilations[1][1]),
+                    (1, spatial_dilations[1][1], spatial_dilations[1][1]),
+                ),
+            ),
+            stage_spatial_strides=(
+                (
+                    spatial_strides[0][0],
+                    spatial_strides[1][0],
+                    spatial_strides[2][0],
+                    spatial_strides[3][0],
+                ),
+                (
+                    spatial_strides[0][1],
+                    spatial_strides[1][1],
+                    spatial_strides[2][1],
+                    spatial_strides[3][1],
+                ),
+            ),
+            stage_temporal_strides=((1, 1, 1, 1), (1, 1, 1, 1)),
+            bottleneck=create_bottleneck_block,
+            # Head configs.
+            head=None,
+            head_pool=nn.AvgPool3d,
+            head_pool_kernel_sizes=head_pool_kernel_sizes,
+            head_activation=None,
+            head_output_with_global_average=False,
+        )
+Chương trình trên đóng vai trò quan trọng trong việc khởi tạo và cấu hình mô hình SlowFast. Đây là nơi thiết lập các thành phần cốt lõi của mô hình, từ các đường dẫn Slow và Fast cho đến các lớp ResNet và các tham số khác.
+Đầu tiên là thiết lập hai đường dẫn chính: đường dẫn "chậm" tập trung vào những thay đổi từ từ và bối cảnh tổng thể của video, và đường dẫn "nhanh" chuyên bắt những chuyển động nhanh và chi tiết nhỏ. Tỷ lệ giữa hai đường dẫn này được điều chỉnh để đảm bảo mô hình nắm bắt được cả hai khía cạnh tĩnh và động của video. 
+Chương trình sử dụng một mạng ResNet làm xương sống, với độ sâu có thể tùy chỉnh. Các lớp tích chập trong ResNet được thiết kế đặc biệt để xử lý dữ liệu video, với các tham số như kích thước kernel, bước nhảy và hệ số giãn nở được điều chỉnh cẩn thận. Mô hình cũng sử dụng các kỹ thuật chuẩn hóa và hàm kích hoạt ReLU để cải thiện hiệu suất và khả năng học. 
+Cuối cùng, đoạn code cấu hình các thành phần đầu ra của mô hình. Trong trường hợp này, mô hình không có một head cụ thể, mà sử dụng một lớp gộp trung bình (average pooling) để tổng hợp thông tin từ các lớp trước đó. Điều này giúp mô hình đưa ra dự đoán về các lớp đối tượng và vị trí của chúng trong video một cách hiệu quả.
+	Trong tệp slowfast.py tồn tại hàm forward() có vai trò quan trọng trong việc thực hiện quá trình suy luận (inference) của mô hình.
+def forward(self, x, bboxes):
+        if bboxes.shape[0] == 0:
+            return torch.tensor([])
+        x = self.model(x)
+        x = self.detection_head(x, bboxes)
+        x = self.post_act(x)
+        x = x.view(x.shape[0], -1)
+        return x
+Với hàm này, thực hiện nhận đầu vào là Nó nhận đầu vào là:
+x: Một tensor biểu diễn video đầu vào. Tensor này có kích thước (batch_size, num_channels, num_frames, height, width).
+bboxes: Một tensor chứa các hộp giới hạn (bounding boxes) của các vùng quan tâm trong video. Mỗi hộp giới hạn được biểu diễn bằng 4 giá trị (x1, y1, x2, y2).
+Các bước thực hiện của hàm như sau: 
+Kiểm tra hộp giới hạn: if bboxes.shape[0] == 0: Nếu không có hộp giới hạn nào (bboxes là một tensor rỗng), hàm sẽ trả về một tensor rỗng, nghĩa là không có đối tượng nào được phát hiện.
+Trích xuất đặc trưng: x = self.model(x): Video đầu vào x được đưa qua mô hình SlowFast (self.model), mô hình này sẽ trích xuất các đặc trưng từ video. Đầu ra của bước này là một tensor chứa các đặc trưng của video, có kích thước (batch_size, num_features, num_frames_reduced, height_reduced, width_reduced).
+Phát hiện đối tượng: x = self.detection_head(x, bboxes): Các đặc trưng x và hộp giới hạn bboxes được đưa vào đầu mạng phát hiện đối tượng (self.detection_head). Đầu mạng này sẽ thực hiện các bước xử lý như ROI pooling (hoặc ROIAlign), phân loại đối tượng và dự đoán hộp giới hạn. Đầu ra là một tensor có kích thước (batch_size, num_classes, 1, 1, 1) (vì output_size trong detection_head được đặt là (1, 1, 1)), chứa các dự đoán về lớp đối tượng.
+Hàm kích hoạt sau cùng: x = self.post_act(x): Kết quả dự đoán x được đưa qua một hàm kích hoạt (activation function) cuối cùng (self.post_act). Hàm này có thể là sigmoid, softmax, hoặc một hàm khác tùy theo cấu hình của mô hình.
+Thay đổi hình dạng: x = x.view(x.shape[0], -1): Tensor kết quả được chuyển đổi thành dạng (batch_size, num_classes), chuẩn bị cho việc tính toán mất mát (loss) trong quá trình huấn luyện hoặc trả về kết quả dự đoán cuối cùng.
+Cuối cùng để thực hiện chương trình huấn luyện, báo cáo thực hiện với lệnh như sau: 
+
+!python tools/run_net.py \
+  --cfg SLOWFAST.yaml --opts \
+  DATA.PATH_TO_DATA_DIR /content/data/ava \
+  NUM_GPUS 1 \
+  TRAIN.ENABLE True \
+  TRAIN.BATCH_SIZE 2 \
+  SOLVER.MAX_EPOCH 10 \
+  TRAIN.CHECKPOINT_FILE_PATH SLOWFAST_8x8_R50_DETECTION.pyth \
+  TRAIN.CHECKPOINT_EPOCH_RESET True \
+  TEST.ENABLE True \
+  TEST.BATCH_SIZE 2
+Ta thiết lập cấu hình cần chạy trong file SLOWFAST.yaml. Với việc cấu hình này, ta có thể tự động hóa quá trình huấn luyện và đánh giá mô hình SlowFast cho tác vụ nhận dạng hành động trong video.
+3.1.3. Kết quả huấn luyện
+	Hiện tại, mô hình sau khi train với 100 epoch đang có độ chính xác ở mức 74%. Tuy nhiên mô hình khi áp dụng thực tế vẫn chưa đạt được độ chính xác cao khi hành vi phát hiện được cần nhận diện ở các góc khó như chỉ có một nửa khuôn mặt hay phát hiện ra một phần tóc hay gáy thay vì cả cơ thể theo hướng chính diện.
+Hình 3.6. Kết quả mAP huấn luyện của mô hình SlowFast
+	Dựa trên đồ thị, ta thấy tỷ lệ Precision Trung bình (mAP)  của mô hình phát hiện hành vi có sự biến động theo thời gian. Ban đầu, giá trị mAP thấp, sau đó tăng đột ngột và ổn định với những biến động nhỏ xung quanh 0.7488.
+Hình 3.7. Loss function của model
+	Hàm mất mát của mô hình giảm mạnh trong thời gian đầu, sau đó giảm và duy trì ổn định với những biến động nhỏ xung quanh 0.2.
+3.2. Thử nghiệm và đánh giá trong môi trường thực tế
+Hệ thống đã chứng minh khả năng nhận diện chính xác các hành vi dễ quan sát và phổ biến trong lớp học như đứng, ngồi, nói chuyện, nhìn vào màn hình, ... Điều này giúp giáo viên nhanh chóng nắm bắt được tình hình lớp học và kịp thời đưa ra biện pháp xử lý phù hợp.
+Hình 3.8. Hình ảnh kết quả hệ thống đưa ra
+Hình 3.9. Hình ảnh kết quả hệ thống đưa ra
+	Có thể thấy mô hình có thể phát hiện tốt các hành vi rõ ràng, tuy nhiên vẫn có một số trường hợp có thể khiến cho mô hình bị rối hoặc đưa ra dự đoán hành vi sai: 
+Hình 3.10. Hình ảnh minh họa cho trường hợp lỗi
+Hình 3.11. Hình ảnh minh họa cho trường hợp lỗi
+Việc dẫn đến nhận diện sai có nhiều nguyên nhân, cụ thế như sau: 
+Khó khăn trong việc nhận diện các hành vi phức tạp: Đối với các hành vi khó quan sát hoặc có biểu hiện đa dạng như mất tập trung, buồn ngủ, suy nghĩ, ... hệ thống vẫn gặp khó khăn trong việc nhận diện chính xác.
+Ảnh hưởng của yếu tố môi trường: Ánh sáng yếu, góc nhìn camera không thuận lợi, hoặc sự che chắn của các vật thể khác có thể làm giảm chất lượng hình ảnh và ảnh hưởng đến khả năng nhận diện hành vi của hệ thống.
+Hành vi che giấu: Một số học sinh có thể cố tình che giấu các hành vi không mong muốn, khiến hệ thống khó phát hiện.
+Kết quả nhận diện hành vi trong môi trường thực tế đã khẳng định tính ứng dụng và tiềm năng của hệ thống. Tuy nhiên, để nâng cao hiệu quả và độ chính xác, cần tiếp tục cải thiện mô hình nhận diện, tối ưu hóa thuật toán, và kết hợp với các giải pháp khác như thu thập dữ liệu từ nhiều nguồn khác nhau.
+KẾT LUẬN
+Kết quả đạt được
+Qua quá trình học hỏi, nghiên cứu, thử nghiệm và đánh giá, bằng việc tận dụng các nghiên cứu có trước về xử lý ảnh, phát hiện hành vi, theo dõi đối tượng, đề tài tự động phát hiện hành vi nhằm nâng cao chất lượng giảng dạy dựa trên các dạng đặc trưng khác nhau đã được hoàn thành.
+Các thuật toán học sâu tiên tiến liên quan đến các bài toán phát hiện con người và hành vi đã được tìm hiểu, nghiên cứu, cài đặt và thử nghiệm. Ngoài ra, một bộ dữ liệu mới dành cho bài toán đã được xây dựng và ứng dụng. Mô hình học sâu dành cho bài toán phát hiện hành vi cũng đã được thiết kế và kết hợp với các mô hình khác để xây dựng hệ thống.
+Hệ thống đã chứng minh khả năng nhận diện và phân loại một số hành vi của học sinh với độ chính xác tốt.
+Kết quả có thể ứng dụng vào thực tế để hỗ trợ giáo viên trong quản lý lớp học và nâng cao chất lượng giảng dạy.
+Hướng phát triển
+Nghiên cứu và cải tiến mô hình slowfast để nhận diện được các hành vi phức tạp hơn.
+Tối ưu hóa hệ thống để hoạt động thời gian thực.
+Phát triển giao diện người dùng thân thiện, dễ sử dụng.
+Mở rộng phạm vi nghiên cứu sang các môi trường và điều kiện làm việc khác nhau.
+TÀI LIỆU THAM KHẢO
+[1] TS. Trần Hùng Cường – ThS. Nguyễn Phương Nga, Giáo trình Trí tuệ nhân tạo, Nhà xuất bản Trường Đại học Công nghiệp Hà Nội
+[2] TRÀ VĂN ĐỒNG, NGUYỄN THU NGUYỆT MINH, & HUỲNH CHÍ NHÂN. (2020). So sánh thuật toán SSD và YOLO trong phát hiện đối tượng. Khoa học Đại học Văn Lang, Số 23, Tháng 9 – 2020.
+[3] Dillon Reis, Jordan Kupec, Jacqueline Hong, Ahmad Daoudi, “Real-Time Flying Object Detection with YOLOv8”, arXiv: 2305.09972v1, 2023.
+[4] Juan Terven, Diana Cordova-Esparza, “ A Comprehensive Review of YOLO: From YOLOv1 and Beyond”, arXiv:2304.00501, 2023.
+[5] Chrisoph Feichtenhofer, Haoqi Fan, Jitendra Malik, Kaiming He, “SlowFast Networks for Video Recognition”, arXiv : 1812.03982v3, 2019
+[6] Researchgate.net, Architecture of Deep SORT Simple online and real time tracking with deep association.
+[7]  FAN YANG, Xiaofei Wang, Baocai Zhong, Jialing Zhong, “Student Classroom Behavior Detection and Analysis Based on Spatio-Temporal Network and Multi-Model Fusion, arXiv : 2310.16267v3, 2023.
+[8] HUANG Y, LIANG M, WANG X, et al. Multi-person classroom action recognition in classroom teaching videos based on deep spatiotemporal residual convolution neural network[J]. Journal of Computer Applications, 2022, 42(3): 736
+[9] Nicolai Wojke , Alex Bewley , Dietrich Paulus. SIMPLE ONLINE AND REALTIME TRACKING WITH A DEEP ASSOCIATION METRIC
+[10] Zhaohui Zheng, Ping Wang, Wei Liu, Jinze Li, Rongguang Ye, Dongwei Ren, “Distance-IoU Loss: Faster and Better Learning for Bounding Box Regression”, arXiv: 1911.08287, 2019.
+[11] Fan Yang, “ A Multi-Person Video Dataset Annotation Method of Spatio-Temporally Actions”, arXiv: 2204.10160v2, 2022.

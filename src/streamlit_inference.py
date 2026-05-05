@@ -110,7 +110,8 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                     continue
 
             if track_id not in buffers:
-                buffers[track_id] = []
+                # Khởi tạo đệm bằng cách lặp lại frame đầu tiên 29 lần (Pre-fill Buffer)
+                buffers[track_id] = [features] * 29
 
             buffers[track_id].append(features)
             label = st.session_state.stable_labels.get(track_id, "Analyzing...")
@@ -145,12 +146,10 @@ def process_video_for_streamlit(video_path, output_path, st_placeholder, progres
                         prediction[class_id] = 0.0
                         class_id = np.argmax(prediction)
                         current_label = LABEL_MAP[class_id]
-                elif current_label == "WRITING" or current_label == "READING":
+                elif current_label in ["WRITING", "READING"]:
                     nose_y = buffers[track_id][-1][1]
                     if nose_y > 0.1: 
-                        prediction[class_id] = 0.0
-                        class_id = np.argmax(prediction)
-                        current_label = LABEL_MAP[class_id]
+                        current_label = "SLEEPING" # Lệnh Ép cứng Nhãn (Hard Override)
 
                 
                 # --- CƠ CHẾ CẬP NHẬT REALTIME (STATE MACHINE) ---
